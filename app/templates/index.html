@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Welcome to Gomoku!</title>
+    <title>Welcome to Gomoku Agent!</title>
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -20,9 +20,19 @@
         (DATA130008.01) @<a href="http://fudan.edu.cn/">Fudan University</a>.
     </p>
     <p>
-      Black:    <input type="text" name="BlackPlayer" value="You">
-      White:    <input type="text" name="WhitePlayer" value="AI">
-      AI Level:    <input type="text" name="AI_Level" value="7">
+        Black:
+                <select class="weui-select" name="BlackPlayer">
+                    <option value="You">You</option>
+                    <option value="AI0">AI0</option>
+                    <option value="AI1">AI1</option>
+                </select>
+        White:
+                <select class="weui-select" name="WhitePlayer">
+                    <option value="You">You</option>
+                    <option value="AI0">AI0</option>
+                    <option value="AI1">AI1</option>
+                </select>
+        AI Level:    <input type="text" name="AI_Level" value="7">
     </p>
     <div class="board-outer">
       <div class="board" id="board">
@@ -44,6 +54,11 @@
           <a href="javascript:;" class="weui_btn weui_btn_default" id='undo'>Undo</a>
         </div>
       </div>
+    </div>
+
+    <div class="weui-footer">
+        <p class="weui-footer__text">Copyright © 2017 Tianxiao Hu, Hui Xu, Bing Zhang
+        <a href="http://wx2.sinaimg.cn/large/e7f776ecly1fg60aihwxlj20fo0luju8.jpg">Contact Us</a>.</p>
     </div>
 
     <script type=text/javascript> $SCRIPT_ROOT = {{ request.script_root|tojson|safe }}; </script>

@@ -30,8 +30,8 @@ var Board = function(container, status) {
 
 Board.prototype.start = function() {
   if(this.started) return;
-  this.p1 = $('input[name="BlackPlayer"]').val()
-  this.p2 = $('input[name="WhitePlayer"]').val()
+  this.p1 = $('select[name="BlackPlayer"]').val()
+  this.p2 = $('select[name="WhitePlayer"]').val()
   this.level = $('input[name="AI_Level"]').val()
   this.initBoard();
   this.init_server();
