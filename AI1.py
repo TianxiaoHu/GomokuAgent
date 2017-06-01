@@ -74,7 +74,7 @@ def strategy(state):
         elif sum(fiveTuple) == -4:
             return -8000000
         elif sum(fiveTuple) == 5:
-            return 10000000000
+            return 1000000000
         elif sum(fiveTuple) == 1:
             return 15
         elif sum(fiveTuple) == 2:
