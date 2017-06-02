@@ -1,12 +1,12 @@
 # -*- coding:utf-8 -*-
 import numpy as np
-from numba import jit
+import random
 
-test_board = ({(8, 8)}, set())
-test_playing = 1
-test_last_move = (8, 8)
-test_board_size = 15
-test_state = (test_board, test_last_move, test_playing, test_board_size)
+# test_board = ({(8, 8), (9, 9)}, {(8, 9)})
+# test_playing = 1
+# test_last_move = (8, 8)
+# test_board_size = 15
+# test_state = (test_board, test_last_move, test_playing, test_board_size)
 
 def strategy(state):
     """ Information provided to you:
@@ -19,16 +19,23 @@ def strategy(state):
     Your strategy will return a position code for the next stone, e.g. (8,7)
     """
     board, last_move, playing, board_size = state
+    if last_move == None:
+        return (board_size/2 + 1, board_size/2 + 1)
+
     root = construct_tree(state, 0, 2)
-    max_value = maxValue(root, float("-inf"), float("inf"))
-    print max_value
-    print root
+    max_value = float("-inf")
+    best_move = []
     for successor in root.successor:
-        print successor.value
-        for subsuccessor in successor.successor:
-            print subsuccessor.value,
-        print
-    return
+        successor_value = maxValue(successor, float("-inf"), float("inf"))
+        if successor_value > max_value:
+            max_value = successor_value
+            best_move = list(successor.state[0][playing] - board[playing])
+        elif successor_value == max_value:
+            best_move.extend(list(successor.state[0][playing] - board[playing]))
+    if best_move == []:
+        best_move = random.choice(find_avai_position(state))
+    return random.choice(best_move)
+
 
 def maxValue(node, alpha, beta):
     if node.isLeaf:
@@ -41,6 +48,7 @@ def maxValue(node, alpha, beta):
         alpha = max(alpha, v)
     return v
 
+
 def minValue(node, alpha, beta):
     if node.isLeaf:
         return node.value
@@ -51,6 +59,7 @@ def minValue(node, alpha, beta):
             return v
         beta = min(beta, v)
     return v
+
 
 def find_avai_position(state):
     board, last_move, playing, board_size = state
@@ -68,11 +77,16 @@ def find_avai_position(state):
         avai_position.remove(stone)
     for stone in oppo_stones:
         avai_position.remove(stone)
+    avai_position = {pos for pos in avai_position
+                     if pos[0] in range(1, board_size+1)
+                     and pos[1] in range(1, board_size+1)}
     return avai_position
+
 
 def find_around_position(position):
     x, y = position
     return [(x_, y_) for x_ in [x-1, x, x+1] for y_ in [y-1, y, y+1]]
+
 
 def score(fiveTuple):
     if len(fiveTuple) != 5:
@@ -90,8 +104,8 @@ def score(fiveTuple):
         return -150000
     elif sum(fiveTuple) == -4:
         return -800000
-    elif sum(fiveTuple) == 5:
-        return 10000000
+    elif sum(fiveTuple) == -5:
+        return -10000000
     elif sum(fiveTuple) == 1:
         return 15
     elif sum(fiveTuple) == 2:
@@ -100,6 +114,8 @@ def score(fiveTuple):
         return 1800
     elif sum(fiveTuple) == 4:
         return 100000
+    elif sum(fiveTuple) == 5:
+        return 10000000
 
 
 def get_value(state):
@@ -114,14 +130,14 @@ def get_value(state):
     for i in range(row):
         for j in range(col):
             if playing == 1:
-                if (i, j) in board[0]:
+                if (i+1, j+1) in board[0]:
                     table[i, j] = -1
-                elif (i, j) in board[1]:
+                elif (i+1, j+1) in board[1]:
                     table[i, j] = 1
             else:
-                if (i, j) in board[0]:
+                if (i+1, j+1) in board[0]:
                     table[i, j] = 1
-                elif (i, j) in board[1]:
+                elif (i+1, j+1) in board[1]:
                     table[i, j] = -1
     sumScore = 0
     for i in range(row):
@@ -142,6 +158,7 @@ def get_value(state):
                 sumScore += score(tuple(fivetuple))
     return sumScore
 
+
 class Node:
     def __init__(self, state, depth, limitedDepth, successor = [],isLeaf = False, value = None):
         self.state = state
@@ -160,6 +177,7 @@ class Node:
         state = 'state:' + str(self.state)
         successor = 'successors:' + str(len(self.successor))
         return '\n'.join([info, depth, limitedDepth, isLeaf, value, state, successor, '\n'])
+
 
 def construct_tree(state, depth, limitedDepth):
     board, last_move, playing, board_size = state
@@ -190,10 +208,10 @@ def construct_tree(state, depth, limitedDepth):
 def finish():
     pass
 
-import time
-start = time.clock()
-strategy(test_state)
-end = time.clock()
-print start
-print end
-print end-start
+# import time
+# start = time.clock()
+# print strategy(test_state)
+# end = time.clock()
+# print start
+# print end
+# print end-start
