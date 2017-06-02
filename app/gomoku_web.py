@@ -15,7 +15,7 @@ class Gomoku_Web(gomoku.Gomoku):
         self.fastmode = None
         self.playing = None
         if players:
-            self.players = [Player_Web(player_name) for player_name in players]
+            self.players = [Player(player_name) for player_name in players]
         else:
             self.players = []
         self.last_move = None
