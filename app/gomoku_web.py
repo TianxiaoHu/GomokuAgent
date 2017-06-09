@@ -38,7 +38,7 @@ class Gomoku_Web(gomoku.Gomoku):
             return
         self.hist_moves.append(self.last_move) # for undo
         winner = self.check_winner()
-        self.print_board()
+        # self.print_board()
         if winner is not None:
             print("##########    %s is the WINNER!    #########" % current_player.name)
             return None, winner
@@ -69,7 +69,7 @@ class Gomoku_Web(gomoku.Gomoku):
         my_last_move = self.hist_moves.pop()
         self.board[self.playing].remove(my_last_move)
         print("Undo!")
-        self.print_board()
+        # self.print_board()
 
 
 class Player(gomoku.Player):

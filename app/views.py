@@ -1,48 +1,53 @@
-from flask import render_template, request, jsonify
+import os
+from flask import render_template, request, jsonify, Response
 from app import app
-import gomoku_web
+from AI1 import strategy
+
 
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template('index.html')
+	return render_template('index.html')
+
 
 @app.route('/_start', methods=['GET'])
 def start():
-    game.reset()
-    p1 = request.args.get('p1', 'You', type=str)
-    p2 = request.args.get('p2', 'AI', type=str)
-    lv = request.args.get('lv', 5, type=int)
-    game.players = []
-    for player_name in [p1,p2]:
-        if player_name.startswith('AI'):
-            p = gomoku_web.Player(player_name,ai_script=player_name,level=lv)
-        else:
-            p = gomoku_web.Player(player_name)
-        game.players.append(p)
-    game.print_board()
-    return 'Success'
+	return 'Success'
+
 
 @app.route('/_player_set', methods=['GET'])
 def player_set():
-    position = request.args.get('position','')
-    stone = tuple(int(i) for i in position.split(','))
-    action = (stone[0]+1, stone[1]+1) # we start from 1 in the game engine
-    next_action, winner = game.web_play(action)
-    if isinstance(next_action, tuple):
-        stone = (next_action[0]-1, next_action[1]-1)
-    else:
-        stone = None
-    return jsonify(next_move=stone, winner=winner)
+	position = request.args.get('position', '')
+	board = request.args.get('board')
+	board = eval(board)
+	player_0 = set()
+	player_1 = set()
+	for i in range(15):
+		for j in range(15):
+			if board[i][j] == 2:
+				player_0.add((i, j))
+			elif board[i][j] == 1:
+				player_1.add((i, j))
+	board = (player_0, player_1)
+	print board
+	print position
+	stone = tuple(int(i) for i in position.split(','))
+	action = (stone[0], stone[1])
+	state = (board, position, 1, 15)
+	ai_action = strategy(state)
+	print ai_action
+	winner = None
+	# next_action, winner = game.web_play(action)
+	if isinstance(ai_action, tuple):
+		stone = (ai_action[0], ai_action[1])
+	else:
+		stone = None
+	return jsonify(next_move=stone, winner=winner)
 
-@app.route('/_reset', methods=['GET'])
-def reset():
-    game.reset()
-    return 'Success'
 
-@app.route('/_undo', methods=['GET'])
-def undo():
-    game.undo()
-    return 'Success'
-
-game = gomoku_web.Gomoku_Web(board_size=15)
+@app.route("/_qrcode")
+def qrcode():
+	path = os.path.join(os.getcwd(), 'app', 'static', 'img', 'htx_qrcode.jpeg')
+	image = file(path)
+	resp = Response(image, mimetype="image/jpeg")
+	return resp

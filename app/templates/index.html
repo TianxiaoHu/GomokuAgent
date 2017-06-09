@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Welcome to Gomoku Agent!</title>
+    <title>Welcome to Gomoku Agent(Demo)!</title>
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -20,22 +20,19 @@
         (DATA130008.01) @<a href="http://fudan.edu.cn/">Fudan University</a>.
     </p>
     <p>
-        Black:
-                <select class="weui-select" name="BlackPlayer">
-                    <option value="You">You</option>
-                    <option value="AI0">AI0</option>
-                    <option value="AI1">AI1</option>
-                    <option value="AI2">AI2</option>
-                </select>
-        White:
-                <select class="weui-select" name="WhitePlayer">
-                    <option value="You">You</option>
-                    <option value="AI0">AI0</option>
-                    <option value="AI1">AI1</option>
-                    <option value="AI2">AI2</option>
-                </select>
-        AI Level:    <input type="text" name="AI_Level" value="7">
+        <strong>
+            Black: You
+            White: AI
+        </strong>
     </p>
+
+    <div class="buttons">
+      <div class="weui-col">
+        <div class="weui-col-16">
+          <a href="javascript:;" class="weui_btn weui_btn_primary" id='start'>Let's play!</a>
+        </div>
+      </div>
+    </div>
     <div class="board-outer">
       <div class="board" id="board">
       </div>
@@ -44,20 +41,12 @@
     <div class="status">
     </div>
 
-    <div class="buttons">
-      <div class="weui-row">
-        <div class="weui-col-33">
-          <a href="javascript:;" class="weui_btn weui_btn_primary" id='start'>Start</a>
-        </div>
-        <div class="weui-col-33">
-          <a href="javascript:;" class="weui_btn weui_btn_warn" id='fail'>Resign</a>
-        </div>
-        <div class="weui-col-33">
-          <a href="javascript:;" class="weui_btn weui_btn_default" id='undo'>Undo</a>
-        </div>
-      </div>
-    </div>
-
+    <p>
+        This is a <strong>demo</strong> version of our project, with only the simplest AI supported.
+    </p>
+    <p>
+        Any suggesstions please contact us <a href="_qrcode">HERE!</a>
+    </p>
     <div class="weui-footer">
         <p class="weui-footer__text">Copyright © 2017 <a href="mailto:txhu14@fudan.edu.cn">Tianxiao Hu</a>,
             Hui Xu, Bing Zhang</p>
