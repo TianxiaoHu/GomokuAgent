@@ -1,7 +1,7 @@
 import os
 from flask import render_template, request, jsonify, Response
 from app import app
-from AI1 import strategy
+from AI1 import strategy, check_five
 
 
 @app.route('/')
@@ -29,19 +29,21 @@ def player_set():
 			elif board[i][j] == 1:
 				player_1.add((i, j))
 	board = (player_0, player_1)
-	print board
-	print position
 	stone = tuple(int(i) for i in position.split(','))
-	action = (stone[0], stone[1])
+	if check_five(board, stone, 0):
+		winner = 'You'
+		return jsonify(next_move=None, winner=winner)
 	state = (board, position, 1, 15)
 	ai_action = strategy(state)
-	print ai_action
 	winner = None
 	# next_action, winner = game.web_play(action)
 	if isinstance(ai_action, tuple):
 		stone = (ai_action[0], ai_action[1])
 	else:
 		stone = None
+	if check_five(board, stone, 1):
+		winner = 'AI'
+	print winner
 	return jsonify(next_move=stone, winner=winner)
 
 

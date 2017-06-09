@@ -117,5 +117,38 @@ def strategy(state):
     choice = max(scoreTable.items(), key=lambda x: x[1])[0]
     return choice
 
+
+def check_five(board, current_move, playing):
+    """
+    board = (x_stones, o_stones)
+    stones is a set contains positions of one player's stones. e.g.
+        x_stones = {(8,8), (8,9), (8,10), (8,11)}
+    current_move = (9, 10)
+    playing = 0|1, the current player's index
+    """
+    stones = board[playing]
+    stones.add(current_move)
+    x, y = current_move
+    for i in range(0, 5):
+        start_x = x-i
+        print {(start_x + j, y) for j in range(5)}
+        if stones.issuperset({(start_x + j, y) for j in range(5)}):
+            return True
+    for i in range(0, 5):
+        start_y = y-i
+        if stones.issuperset({(x, start_y + j) for j in range(5)}):
+            return True
+    for i in range(0, 5):
+        start_x = x-i
+        start_y = y-i
+        if stones.issuperset({(start_x + j, start_y + j) for j in range(5)}):
+            return True
+    for i in range(0, 5):
+        start_x = x + i
+        start_y = y - i
+        if stones.issuperset({(start_x - j, start_y + j) for j in range(5)}):
+            return True
+    return False
+
 def finish():
     pass
