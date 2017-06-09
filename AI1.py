@@ -131,7 +131,6 @@ def check_five(board, current_move, playing):
     x, y = current_move
     for i in range(0, 5):
         start_x = x-i
-        print {(start_x + j, y) for j in range(5)}
         if stones.issuperset({(start_x + j, y) for j in range(5)}):
             return True
     for i in range(0, 5):

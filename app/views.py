@@ -43,7 +43,6 @@ def player_set():
 		stone = None
 	if check_five(board, stone, 1):
 		winner = 'AI'
-	print winner
 	return jsonify(next_move=stone, winner=winner)
 
 
