@@ -47,7 +47,4 @@ def player_set():
 
 @app.route("/_qrcode")
 def qrcode():
-	path = os.path.join(os.getcwd(), 'app', 'static', 'img', 'htx_qrcode.jpeg')
-	image = file(path)
-	resp = Response(image, mimetype="image/jpeg")
-	return resp
+	return render_template('contact.html')
