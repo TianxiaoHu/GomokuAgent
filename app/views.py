@@ -11,7 +11,7 @@ def index():
 def start():
     game.reset()
     p1 = request.args.get('p1', 'You', type=str)
-    p2 = request.args.get('p2', 'AI', type=str)
+    p2 = request.args.get('p2', 'AI1', type=str)
     lv = request.args.get('lv', 5, type=int)
     game.players = []
     for player_name in [p1,p2]:
