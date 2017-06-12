@@ -31,7 +31,7 @@ def strategy(state):
                     table[i, j] = 1
                 elif (i+1, j+1) in board[1]:
                     table[i, j] = 2
-    # 获取改点4个方向的棋型
+    # 获取该点4个方向的棋型
     def getstring(point):
         x = point[0]
         y = point[1]
@@ -152,7 +152,7 @@ def strategy(state):
         else:
             return 'nothreat'
 
-    # 计算我方形式分数
+    # 计算我方形势分数
     def evaluate_self(table):
         row, col = table.shape
         myscore = 0
@@ -190,8 +190,6 @@ def strategy(state):
                         tmp2 = judgeType2(item0)
                         opType[tmp2] += 1
                     # opponent score
-                    # 赢5
-                    # my score
                     opscore += 1000000 * opType['win5'] + 300000 * opType['alive4'] + \
                                2500 * opType['die4'] + 3000 * opType['lowdie4'] + \
                                3000 * opType['alive3'] + 800 * opType['tiao3'] + \
