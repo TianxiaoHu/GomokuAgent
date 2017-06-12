@@ -31,6 +31,7 @@ def strategy(state):
                     table[i, j] = 1
                 elif (i+1, j+1) in board[1]:
                     table[i, j] = 2
+
     # 获取改点4个方向的棋型
     def getstring(point):
         x = point[0]
@@ -39,10 +40,14 @@ def strategy(state):
         getLine1 = ''
         for k in range(max(x - 4, 0), min(x + 5, 15)):
             getLine1 += str(int(table[k, y]))
+        if x-4<0: getLine1 = '*'+getLine1
+        if x+4>14: getLine1 = getLine1+'*'
         # horizonal
         getLine2 = ''
         for k in range(max(y - 4, 0), min(y + 5, 15)):
             getLine2 += str(int(table[x, k]))
+        if y-4<0: getLine2 = '*'+getLine2
+        if y+4>14: getLine2 = getLine2+'*'
         # Oblique 45
         getLine3 = ''
         bx = max(0, x - 4)
@@ -51,10 +56,14 @@ def strategy(state):
         uy = min(14, y + 4)
         for k in range(max(bx - x, by - y), min(ux - x, uy - y)+1):
             getLine3 += str(int(table[x + k, y + k]))
+        if x-4<0 or y-4<0: getLine3 = '*'+getLine3
+        if x+4>14 or y+4>14: getLine3 = getLine3+'*'
         # Oblique 135
         getLine4 = ''
         for k in range(max(bx - x, y - uy), min(ux - x, y - by)+1):
             getLine4 += str(int(table[x + k, y - k]))
+        if x-4<0 or y+4>14: getLine4 = '*'+getLine4
+        if x+4>14 or y-4<0: getLine4 = getLine4+'*'
 
         return [getLine1, getLine2, getLine3, getLine4]
 
@@ -64,20 +73,31 @@ def strategy(state):
             return 'win5'
         if '011110' in getline:
             return 'alive4'
-        if '211110' in getline or '011112' in getline:
+        if '211110' in getline or '011112' in getline\
+                or '*11110' in getline or '01111*' in getline:
             return 'die4'
         if '11101' in getline or '10111' in getline\
-            or '11011' in getline:
+            or '11011' in getline :
             return 'lowdie4'
         if '001110' in getline or '011100' in getline:
             return 'alive3'
         if '2011102' in getline or '211100' in getline \
+            or '*011102' in getline or '201110*' in getline\
+            or '*01110*' in getline or '*11100' in getline\
+            or '00111*' in getline or '011001' in getline\
+            or '100110' in getline \
             or '001112' in getline or '11001' in getline\
             or '10011' in getline or '011012' in getline\
-            or '210110' in getline or '21101' in getline\
+            or '210110' in getline or '*10110' in getline\
+            or '01101*' in getline\
+            or '21101' in getline or '*1101' in getline\
+            or '1011*' in getline\
             or '10112' in getline or '10101' in getline\
+            or '*11001' in getline or '10011*' in getline\
             or '211001' in getline or '100112' in getline\
+            or '1011*' in getline or '*1101' in getline\
             or '10112' in getline or '21101' in getline\
+            or '10011*' in getline or '*11001' in getline\
             or '100112' in getline or '211001' in getline:
             return 'die3'
         if '011010' in getline or '010110' in getline:
@@ -87,7 +107,8 @@ def strategy(state):
         if '001010' in getline or '010100' in getline\
             or '010010' in getline:
             return 'lowalive2'
-        if '11000' in getline or '00011' in getline:
+        if '211000' in getline or '000112' in getline\
+                or '*11000' in getline or '00011*' in getline:
             return 'die2'
         else:
             return 'nothreat'
@@ -98,7 +119,8 @@ def strategy(state):
             return 'win5'
         if '022220' in getline:
             return 'alive4'
-        if '122220' in getline or '022221' in getline:
+        if '122220' in getline or '022221' in getline\
+                or '*22220' in getline or '02222*' in getline:
             return 'die4'
         if '22202' in getline or '20222' in getline\
             or '22022' in getline:
@@ -106,12 +128,19 @@ def strategy(state):
         if '002220' in getline or '022200' in getline:
             return 'alive3'
         if '1022201' in getline or '122200' in getline \
+            or '*02220*' in getline or '102220*' in getline or '*022201' in getline\
+            or '*22200' in getline or '00222*' in getline\
             or '002221' in getline or '22002' in getline\
             or '20022' in getline or '022021' in getline\
+            or '02202*' in getline or '*20220' in getline\
             or '120220' in getline or '12202' in getline\
+            or '*2202' in getline or '2022*' in getline\
             or '20221' in getline or '20202' in getline\
+            or '*22002' in getline or '20022*' in getline\
             or '122002' in getline or '200221' in getline\
+            or '2022*' in getline or '*2202' in getline\
             or '20221' in getline or '12202' in getline\
+            or '20022*' in getline or '*22002' in getline\
             or '200221' in getline or '122002' in getline:
             return 'die3'
         if '022020' in getline or '020220' in getline:
