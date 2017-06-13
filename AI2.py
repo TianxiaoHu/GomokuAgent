@@ -101,7 +101,7 @@ def score(fiveTuple):
     elif sum(fiveTuple) == -2:
         return -800
     elif sum(fiveTuple) == -3:
-        return -150000
+        return -15000
     elif sum(fiveTuple) == -4:
         return -800000
     elif sum(fiveTuple) == -5:
