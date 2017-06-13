@@ -108,7 +108,7 @@ def strategy(state):
         return sumScore
     
     if len(board[0]) == 0 and len(board[1]) == 0:
-        return (8, 8)
+        return (board_size/2 + 1, board_size/2 + 1)
     else:
         scoreTable = {}
         for i in range(row):
