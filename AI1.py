@@ -47,14 +47,14 @@ def strategy(state):
     for i in range(row):
         for j in range(col):
             if playing == 1:
-                if (i, j) in board[0]:
+                if (i+1, j+1) in board[0]:
                     table[i, j] = -1
-                elif (i, j) in board[1]:
+                elif (i+1, j+1) in board[1]:
                     table[i, j] = 1
             else:
-                if (i, j) in board[0]:
+                if (i+1, j+1) in board[0]:
                     table[i, j] = 1
-                elif (i, j) in board[1]:
+                elif (i+1, j+1) in board[1]:
                     table[i, j] = -1
 
     def score(fiveTuple):
@@ -106,16 +106,19 @@ def strategy(state):
                         fivetuple.append(table[i+k, j-k])
                     sumScore += score(tuple(fivetuple))
         return sumScore
-
-    scoreTable = {}
-    for i in range(row):
-        for j in range(col):
-            if table[i, j] == 0:
-                table[i, j] = 1
-                scoreTable[(i, j)] = heuristic(table)
-                table[i, j] = 0
-    choice = max(scoreTable.items(), key=lambda x: x[1])[0]
-    return choice
+    
+    if len(board[0]) == 0 and len(board[1]) == 0:
+        return (8, 8)
+    else:
+        scoreTable = {}
+        for i in range(row):
+            for j in range(col):
+                if table[i, j] == 0:
+                    table[i, j] = 1
+                    scoreTable[(i, j)] = heuristic(table)
+                    table[i, j] = 0
+        choice = max(scoreTable.items(), key=lambda x: x[1])[0]
+        return (choice[0]+1, choice[1]+1)
 
 def finish():
     pass
