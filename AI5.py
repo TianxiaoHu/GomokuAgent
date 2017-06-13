@@ -167,12 +167,12 @@ def strategy(state):
                         tmp1 = judgeType1(item0)
                         myType[tmp1] += 1
                     # my score
-                    myscore += 1000000*myType['win5']+300000*myType['alive4']+ \
-                               2500 * myType['die4']+3000*myType['lowdie4']+ \
-                               3000 * myType['alive3']+800*myType['tiao3']+ \
-                               600 * myType['die3']+650*myType['alive2']+ \
-                               250 * myType['lowalive2']+200*myType['lowalive2']+ \
-                               5 * myType['nothreat']
+                    myscore += 1000000 * myType['win5'] + 100000 * myType['alive4'] + \
+                               80000 * myType['die4'] + 70000 * myType['lowdie4'] + \
+                               10000 * myType['alive3'] + 9000 * myType['tiao3'] + \
+                               600 * myType['die3'] + 850 * myType['alive2'] + \
+                               100 * myType['lowalive2'] + 10 * myType['die2'] + \
+                               2 * myType['nothreat']
         return myscore
 
     # 计算敌方的形势分数
@@ -191,24 +191,28 @@ def strategy(state):
                         opType[tmp2] += 1
                     # opponent score
                     opscore += 1000000 * opType['win5'] + 300000 * opType['alive4'] + \
-                               2500 * opType['die4'] + 3000 * opType['lowdie4'] + \
-                               3000 * opType['alive3'] + 800 * opType['tiao3'] + \
-                               600 * opType['die3'] + 650 * opType['alive2'] + \
-                               250 * opType['lowalive2'] + 200 * opType['lowalive2'] + \
-                               5 * opType['nothreat']
+                               200000 * opType['die4'] + 200000 * opType['lowdie4'] + \
+                               50000 * opType['alive3'] + 45000 * opType['tiao3'] + \
+                               600 * opType['die3'] + 700 * opType['alive2'] + \
+                               50 * opType['lowalive2'] + 10 * opType['die2'] + \
+                               1 * opType['nothreat']
         return opscore
-
-    scoretable={}
-    defend = 2
-    for i in range(row):
-        for j in range(col):
-            if table[i, j] == 0:
-                #old = evaluate_self(table)-defend*evaluate_op(table)
-                table[i, j] = 1
-                scoretable[(i, j)] = evaluate_self(table)-defend*evaluate_op(table)
-                table[i, j] = 0
-    self_position = max(scoretable.items(), key=lambda x: x[1])[0]
-    return (self_position[0]+1, self_position[1]+1)
+    
+    
+    if len(board[0]) == 0 and len(board[1]) == 0:
+        return (board_size/2 + 1, board_size/2 + 1)
+    else:
+        scoretable={}
+        defend = 2
+        for i in range(row):
+            for j in range(col):
+                if table[i, j] == 0:
+                    #old = evaluate_self(table)-defend*evaluate_op(table)
+                    table[i, j] = 1
+                    scoretable[(i, j)] = evaluate_self(table)-defend*evaluate_op(table)
+                    table[i, j] = 0
+        self_position = max(scoretable.items(), key=lambda x: x[1])[0]
+        return (self_position[0]+1, self_position[1]+1)
 
     # 另一种下棋思路：找出我方形势分数的最大值mymaxscore及其对应的位置，找出敌方形势的最大值hismaxscore及其对应的位置。
     # 如果mymaxscore>=hismaxscore，则进攻，下我方形势最大值mymaxscore对应的位置
