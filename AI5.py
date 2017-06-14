@@ -74,38 +74,47 @@ def strategy(state):
             return 'alive4'
         if '211110' in getline or '011112' in getline\
                 or '*11110' in getline or '01111*' in getline:
-            return 'die4'
+            return 'lian-rush4'
         if '11101' in getline or '10111' in getline\
-            or '11011' in getline:
-            return 'lowdie4'
+                or '11011' in getline:
+            return 'tiao-rush4'
         if '001110' in getline or '011100' in getline:
-            return 'alive3'
-        if '211100' in getline or '001112' in getline\
-            or '*11100' in getline or '00111*' in getline\
-            or '211010' in getline or '010112' in getline\
-            or '*11010' in getline or '01011*' in getline\
-            or '210110' in getline or '011012' in getline\
-            or '*10110' in getline or '01101*' in getline\
-            or '11001' in getline or '10011' in getline\
-            or '10101' in getline or '2011102' in getline\
-            or '*011102' in getline or '201110*' in getline\
-            or '*01110*' in getline:
-            return 'die3'
+            return 'lian-alive3'
         if '011010' in getline or '010110' in getline:
-            return 'tiao3'
-        if '001100' in getline:
+            return 'tiao-alive3'
+        if '211100' in getline or '001112' in getline\
+                or '*11100' in getline or '00111*' in getline:
+            return 'lian-sleep3'
+        if '211010' in getline or '010112' in getline\
+                or '*11010' in getline or '01011*' in getline\
+                or '210110' in getline or '011012' in getline\
+                or '*10110' in getline or '01101*' in getline:
+            return 'tiao-sleep3'
+        if '11001' in getline or '10011' in getline\
+                or '10101' in getline:
+            return 'te-sleep3'
+        if '2011102' in getline or '*011102' in getline\
+                or '201110*' in getline or '*01110*' in getline:
+            return 'jia-alive3'
+        if '001100' in getline or '011000' in getline\
+                or '000110' in getline or '001010' in getline\
+                or '010100' in getline or '010010' in getline:
             return 'alive2'
-        if '001010' in getline or '010100' in getline\
-            or '010010' in getline:
-            return 'lowalive2'
         if '211000' in getline or '000112' in getline\
                 or '*11000' in getline or '00011*' in getline\
                 or '210100' in getline or '001012' in getline\
                 or '*10100' in getline or '00101*' in getline\
                 or '210010' in getline or '010012' in getline\
                 or '*10010' in getline or '01001*' in getline\
-                or '10001' in getline:
-            return 'die2'
+                or '10001' in getline or '2010102' in getline\
+                or '*01010*' in getline or '201010*' in getline\
+                or '*010102' in getline or '2011002' in getline\
+                or '2001102' in getline or '*011002' in getline\
+                or '200110*' in getline or '201100*' in getline\
+                or '*001102' in getline:
+            return 'sleep2'
+        if '01' in getline or '10' in getline:
+            return 'alive1'
         else:
             return 'nothreat'
 
@@ -117,38 +126,47 @@ def strategy(state):
             return 'alive4'
         if '122220' in getline or '022221' in getline\
                 or '*22220' in getline or '02222*' in getline:
-            return 'die4'
+            return 'lian-rush4'
         if '22202' in getline or '20222' in getline\
-            or '22022' in getline:
-            return 'lowdie4'
+                or '22022' in getline:
+            return 'tiao-rush4'
         if '002220' in getline or '022200' in getline:
-            return 'alive3'
-        if '122200' in getline or '002221' in getline\
-            or '*22200' in getline or '00222*' in getline\
-            or '122020' in getline or '020221' in getline\
-            or '*22020' in getline or '02022*' in getline\
-            or '120220' in getline or '022021' in getline\
-            or '*20220' in getline or '02202*' in getline\
-            or '22002' in getline or '20022' in getline\
-            or '20202' in getline or '1022201' in getline\
-            or '*022201' in getline or '102220*' in getline\
-            or '*02220*' in getline:
-            return 'die3'
+            return 'lian-alive3'
         if '022020' in getline or '020220' in getline:
-            return 'tiao3'
-        if '002200' in getline:
+            return 'tiao-alive3'
+        if '122200' in getline or '002221' in getline\
+                or '*22200' in getline or '00222*' in getline:
+            return 'lian-sleep3'
+        if '122020' in getline or '020221' in getline\
+                or '*22020' in getline or '02022*' in getline\
+                or '120220' in getline or '022021' in getline\
+                or '*20220' in getline or '02202*' in getline:
+            return 'tiao-sleep3'
+        if '22002' in getline or '20022' in getline\
+                or '20202' in getline:
+            return 'te-sleep3'
+        if '1022201' in getline or '*022201' in getline\
+                or '102220*' in getline or '*02220*' in getline:
+            return 'jia-alive3'
+        if '002200' in getline or '022000' in getline\
+                or '000220' in getline or '002020' in getline\
+                or '020200' in getline or '020020' in getline:
             return 'alive2'
-        if '002020' in getline or '020200' in getline\
-            or '020020' in getline:
-            return 'lowalive2'
         if '122000' in getline or '000221' in getline\
                 or '*22000' in getline or '00022*' in getline\
                 or '120200' in getline or '002021' in getline\
                 or '*20200' in getline or '00202*' in getline\
                 or '120020' in getline or '020021' in getline\
                 or '*20020' in getline or '02002*' in getline\
-                or '20002' in getline:
-            return 'die2'
+                or '20002' in getline or '1020201' in getline\
+                or '*02020*' in getline or '102020*' in getline\
+                or '*020201' in getline or '1022001' in getline\
+                or '1002201' in getline or '*022001' in getline\
+                or '100220*' in getline or '102200*' in getline\
+                or '*002201' in getline:
+            return 'sleep2'
+        if '02' in getline or '20' in getline:
+            return 'alive1'
         else:
             return 'nothreat'
 
@@ -160,19 +178,21 @@ def strategy(state):
             for j in range(col):
                 if table[i, j] == 1:
                     point = (i, j)
-                    myType={'win5':0, 'alive4':0, 'die4':0, 'lowdie4':0, 'alive3':0, 'die3':0, 'tiao3':0, 'alive2':0, \
-                            'lowalive2':0, 'die2':0, 'nothreat':0}
+                    myType={'win5':0, 'alive4':0, 'lian-rush4':0, 'tiao-rush4':0, 'lian-alive3':0, 'tiao-alive3':0,\
+                            'lian-sleep3':0, 'tiao-sleep3':0, 'te-sleep3':0, 'jia-alive3':0,\
+                            'alive2':0, 'sleep2':0, 'alive1':0, 'nothreat':0}
                     lines = getstring(point)
                     for item0 in lines:
                         tmp1 = judgeType1(item0)
                         myType[tmp1] += 1
                     # my score
-                    myscore += 1000000 * myType['win5'] + 100000 * myType['alive4'] + \
-                               80000 * myType['die4'] + 70000 * myType['lowdie4'] + \
-                               10000 * myType['alive3'] + 9000 * myType['tiao3'] + \
-                               600 * myType['die3'] + 850 * myType['alive2'] + \
-                               100 * myType['lowalive2'] + 10 * myType['die2'] + \
-                               2 * myType['nothreat']
+                    myscore += 10000*myType['win5']+6000*myType['alive4']+ \
+                               4500*myType['lian-rush4']+4400*myType['tiao-rush4']+ \
+                               2500*myType['lian-alive3']+2400*myType['tiao-alive3']+ \
+                               1500*myType['lian-sleep3']+1400*myType['tiao-sleep3']+\
+                               1400*myType['te-sleep3']+1400*myType['jia-alive3']+\
+                               1000*myType['alive2']+100*myType['sleep2']+\
+                               5*myType['alive1']+1*myType['nothreat']
         return myscore
 
     # 计算敌方的形势分数
@@ -183,27 +203,29 @@ def strategy(state):
             for j in range(col):
                 if table[i, j] == 2:
                     point = (i, j)
-                    opType = {'win5': 0, 'alive4': 0, 'die4': 0, 'lowdie4': 0, 'alive3': 0, 'die3': 0, 'tiao3': 0, \
-                              'alive2': 0, 'lowalive2': 0, 'die2': 0, 'nothreat': 0}
+                    opType = {'win5':0, 'alive4':0, 'lian-rush4':0, 'tiao-rush4':0, 'lian-alive3':0, 'tiao-alive3':0,\
+                            'lian-sleep3':0, 'tiao-sleep3':0, 'te-sleep3':0, 'jia-alive3':0,\
+                            'alive2':0, 'sleep2':0, 'alive1':0, 'nothreat':0}
                     lines = getstring(point)
                     for item0 in lines:
                         tmp2 = judgeType2(item0)
                         opType[tmp2] += 1
                     # opponent score
-                    opscore += 1000000 * opType['win5'] + 300000 * opType['alive4'] + \
-                               200000 * opType['die4'] + 200000 * opType['lowdie4'] + \
-                               50000 * opType['alive3'] + 45000 * opType['tiao3'] + \
-                               600 * opType['die3'] + 700 * opType['alive2'] + \
-                               50 * opType['lowalive2'] + 10 * opType['die2'] + \
-                               1 * opType['nothreat']
+                    opscore += 10000*opType['win5']+8000*opType['alive4']+ \
+                               7000*opType['lian-rush4']+7000*opType['tiao-rush4']+ \
+                               4200*opType['lian-alive3']+3000*opType['tiao-alive3']+ \
+                               500*opType['lian-sleep3']+500*opType['tiao-sleep3']+\
+                               500*opType['te-sleep3']+500*opType['jia-alive3']+\
+                               100*opType['alive2']+90*opType['sleep2']+\
+                               6*opType['alive1']+1*opType['nothreat']
         return opscore
-    
-    
+
+
     if len(board[0]) == 0 and len(board[1]) == 0:
         return (board_size/2 + 1, board_size/2 + 1)
     else:
         scoretable={}
-        defend = 2
+        defend = 1
         for i in range(row):
             for j in range(col):
                 if table[i, j] == 0:
@@ -214,27 +236,6 @@ def strategy(state):
         self_position = max(scoretable.items(), key=lambda x: x[1])[0]
         return (self_position[0]+1, self_position[1]+1)
 
-    # 另一种下棋思路：找出我方形势分数的最大值mymaxscore及其对应的位置，找出敌方形势的最大值hismaxscore及其对应的位置。
-    # 如果mymaxscore>=hismaxscore，则进攻，下我方形势最大值mymaxscore对应的位置
-    # 否则，防守，下敌方形势最大值hismaxscore对应的位置。
-    '''
-    for i in range(row):
-        for j in range(col):
-            if table[i, j] == 0:
-                table[i, j] = 1
-                my_scoretable[(i, j)] = evaluate_self(table)
-                table[i, j] = 2
-                op_scoretable[(i, j)] = evaluate_op(table)
-                table[i, j] = 0
-    self_value = max(my_scoretable.items(), key=lambda x: x[1])[1]
-    op_value = max(op_scoretable.items(), key=lambda x: x[1])[1]
-    if self_value >= op_value:
-        self_position = max(my_scoretable.items(), key=lambda x: x[1])[0]
-        return (self_position[0]+1, self_position[1]+1)
-    else:
-        op_position = max(op_scoretable.items(), key=lambda x: x[1])[0]
-        return (op_position[0]+1, op_position[1]+1)
-    '''
 
 def finish():
     pass
