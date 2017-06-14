@@ -1,29 +1,5 @@
 # -*- coding:utf-8 -*-
 
-
-# ---point table---
-# // tuple is empty
-# Blank, tupleScoreTable[0] = 7;
-# // tuple contains a black chess
-# B, tupleScoreTable[1] = 35;
-# // tuple contains two black chesses
-# BB, tupleScoreTable[2] = 800;
-# // tuple contains three black chesses
-# BBB, tupleScoreTable[3] = 15000;
-# // tuple contains four black chesses
-# BBBB, tupleScoreTable[4] = 800000;
-# // tuple contains a white chess
-# W, tupleScoreTable[5] = 15;
-# // tuple contains two white chesses
-# WW, tupleScoreTable[6] = 400;
-# // tuple contains three white chesses
-# WWW, tupleScoreTable[7] = 1800;
-# // tuple contains four white chesses
-# WWWW, tupleScoreTable[8] = 100000;
-# // tuple does not exist
-# Virtual, tupleScoreTable[9] = 0;
-# // tuple contains at least one black and at least one white
-# Polluted, tupleScoreTable[10] = 0
 import numpy as np
 
 def strategy(state):
@@ -138,7 +114,7 @@ def strategy(state):
                 or '200110*' in getline or '201100*' in getline\
                 or '*001102' in getline:
             return 'sleep2'
-        if '010' in getline:
+        if '010' in getline or '10' in getline:
             return 'alive1'
         else:
             return 'nothreat'
@@ -190,7 +166,7 @@ def strategy(state):
                 or '100220*' in getline or '102200*' in getline\
                 or '*002201' in getline:
             return 'sleep2'
-        if '020' in getline:
+        if '020' in getline or '20' in getline:
             return 'alive1'
         else:
             return 'nothreat'
@@ -260,7 +236,6 @@ def strategy(state):
                     table[i, j] = 0
         self_position = max(scoretable.items(), key=lambda x: x[1])[0]
         return (self_position[0]+1, self_position[1]+1)
-
 
 def check_five(board, current_move, playing):
     """

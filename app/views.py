@@ -1,7 +1,7 @@
 import os
 from flask import render_template, request, jsonify, Response
 from app import app
-from AI1 import strategy, check_five
+from AI import strategy, check_five
 
 
 @app.route('/')
