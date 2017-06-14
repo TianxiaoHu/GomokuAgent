@@ -113,7 +113,7 @@ def strategy(state):
                 or '200110*' in getline or '201100*' in getline\
                 or '*001102' in getline:
             return 'sleep2'
-        if '01' in getline or '10' in getline:
+        if '010' in getline or '10' in getline:
             return 'alive1'
         else:
             return 'nothreat'
@@ -165,7 +165,7 @@ def strategy(state):
                 or '100220*' in getline or '102200*' in getline\
                 or '*002201' in getline:
             return 'sleep2'
-        if '02' in getline or '20' in getline:
+        if '020' in getline or '20' in getline:
             return 'alive1'
         else:
             return 'nothreat'
