@@ -113,7 +113,7 @@ def strategy(state):
                 or '200110*' in getline or '201100*' in getline\
                 or '*001102' in getline:
             return 'sleep2'
-        if '010' in getline or '10' in getline:
+        if '010' in getline or '10' in getline or '01' in getline:
             return 'alive1'
         else:
             return 'nothreat'
@@ -165,7 +165,7 @@ def strategy(state):
                 or '100220*' in getline or '102200*' in getline\
                 or '*002201' in getline:
             return 'sleep2'
-        if '020' in getline or '20' in getline:
+        if '020' in getline or '20' in getline or '02' in getline:
             return 'alive1'
         else:
             return 'nothreat'
@@ -224,9 +224,16 @@ def strategy(state):
     if len(board[0]) == 0 and len(board[1]) == 0:
         return (board_size/2 + 1, board_size/2 + 1)
     else:
+        # 获得局部搜索区域的下标
+        sumBoard = board[0] | board[1]
+        xmax = min(max(sumBoard, key=lambda x: x[0])[0] + 2, 15)
+        ymax = min(max(sumBoard, key=lambda x: x[1])[1] + 2, 15)
+        xmin = max(min(sumBoard, key=lambda x: x[0])[0] - 3, 0)
+        ymin = max(min(sumBoard, key=lambda x: x[1])[1] - 3, 0)
+
         scoretable={}
-        for i in range(row):
-            for j in range(col):
+        for i in range(xmin, xmax):
+            for j in range(ymin, ymax):
                 if table[i, j] == 0:
                     #old = evaluate_self(table)-defend*evaluate_op(table)
                     table[i, j] = 1
