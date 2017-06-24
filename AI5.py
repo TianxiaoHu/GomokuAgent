@@ -186,13 +186,13 @@ def strategy(state):
                         tmp1 = judgeType1(item0)
                         myType[tmp1] += 1
                     # my score
-                    myscore += 10000*myType['win5']+6000*myType['alive4']+ \
-                               4500*myType['lian-rush4']+4400*myType['tiao-rush4']+ \
-                               2500*myType['lian-alive3']+2400*myType['tiao-alive3']+ \
-                               1500*myType['lian-sleep3']+1400*myType['tiao-sleep3']+\
-                               1400*myType['te-sleep3']+1400*myType['jia-alive3']+\
-                               1000*myType['alive2']+100*myType['sleep2']+\
-                               5*myType['alive1']+1*myType['nothreat']
+                    myscore += 1000000*myType['win5']+20000*myType['alive4']+ \
+                               6100*myType['lian-rush4']+6000*myType['tiao-rush4']+ \
+                               1100*myType['lian-alive3']+1000*myType['tiao-alive3']+ \
+                               300*myType['lian-sleep3']+290*myType['tiao-sleep3']+\
+                               290*myType['te-sleep3']+290*myType['jia-alive3']+\
+                               100*myType['alive2']+10*myType['sleep2']+\
+                               3*myType['alive1']+1*myType['nothreat']
         return myscore
 
     # 计算敌方的形势分数
@@ -211,13 +211,13 @@ def strategy(state):
                         tmp2 = judgeType2(item0)
                         opType[tmp2] += 1
                     # opponent score
-                    opscore += 10000*opType['win5']+8000*opType['alive4']+ \
-                               7000*opType['lian-rush4']+7000*opType['tiao-rush4']+ \
-                               4200*opType['lian-alive3']+3000*opType['tiao-alive3']+ \
-                               500*opType['lian-sleep3']+500*opType['tiao-sleep3']+\
-                               500*opType['te-sleep3']+500*opType['jia-alive3']+\
-                               100*opType['alive2']+90*opType['sleep2']+\
-                               6*opType['alive1']+1*opType['nothreat']
+                    opscore += 1000000*opType['win5']+100000*opType['alive4']+ \
+                               65000*opType['lian-rush4']+65000*opType['tiao-rush4']+ \
+                               5500*opType['lian-alive3']+5000*opType['tiao-alive3']+ \
+                               200*opType['lian-sleep3']+200*opType['tiao-sleep3']+\
+                               200*opType['te-sleep3']+200*opType['jia-alive3']+\
+                               90*opType['alive2']+9*opType['sleep2']+\
+                               4*opType['alive1']+1*opType['nothreat']
         return opscore
 
 
