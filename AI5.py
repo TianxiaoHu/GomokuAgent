@@ -225,13 +225,12 @@ def strategy(state):
         return (board_size/2 + 1, board_size/2 + 1)
     else:
         scoretable={}
-        defend = 1
         for i in range(row):
             for j in range(col):
                 if table[i, j] == 0:
                     #old = evaluate_self(table)-defend*evaluate_op(table)
                     table[i, j] = 1
-                    scoretable[(i, j)] = evaluate_self(table)-defend*evaluate_op(table)
+                    scoretable[(i, j)] = evaluate_self(table)-evaluate_op(table)
                     table[i, j] = 0
         self_position = max(scoretable.items(), key=lambda x: x[1])[0]
         return (self_position[0]+1, self_position[1]+1)
