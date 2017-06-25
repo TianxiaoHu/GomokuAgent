@@ -1,9 +1,6 @@
 #!/usr/bin/env python2
 # -- coding: utf-8 --
 
-#==========================
-#=      Gomoku Game       =
-#==========================
 
 from __future__ import print_function, division
 import os, sys, time, collections
@@ -54,11 +51,7 @@ class Gomoku(object):
     Two players alternatively put their stone on the board. First one got five in a row wins.
     """
 
-    def __init__(self, board_size=15, players=None, fastmode=False, first_center=None):
-        print("*********************************")
-        print("*      Welcome to Gomoku !      *")
-        print("*********************************")
-        print(self.__doc__)
+    def __init__(self, board_size=15, players=None, fastmode=False, first_center=None, silent_mode=False):
         self.reset()
         self.board_size = board_size
         self.fastmode = fastmode
@@ -67,6 +60,7 @@ class Gomoku(object):
         self.winning_stones = set()
         self.last_move = None
         self.first_center = first_center
+        self.silent_mode = silent_mode
 
     @property
     def state(self):
@@ -102,7 +96,7 @@ class Gomoku(object):
         while True:
             if self.fastmode < 2:  print("----- Turn %d -------" % i_turn)
             self.playing = i_turn % 2
-            if self.fastmode < 2:
+            if self.fastmode < 2 and not self.silent_mode:
                 self.print_board()
             current_player = self.players[self.playing]
             other_player = self.players[int(not self.playing)]
@@ -126,7 +120,8 @@ class Gomoku(object):
             # check if current player wins
             winner = self.check_winner()
             if winner:
-                self.print_board()
+                if not self.silent_mode:
+                    self.print_board()
                 print("##########    %s is the WINNER!    #########" % current_player.name)
                 return winner
             elif i_turn == self.board_size ** 2 - 1:

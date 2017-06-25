@@ -5,15 +5,12 @@ class Gomoku_Web(gomoku.Gomoku):
     """ Gomoku Game Rules:
     Two players alternatively put their stone on the board. First one got five in a row wins.
     """
-    def __init__(self, board_size=15, players=None):
-        print("*********************************")
-        print("*      Welcome to Gomoku !      *")
-        print("*********************************")
-        print(self.__doc__)
+    def __init__(self, board_size=15, players=None, silent_mode=False):
         self.reset()
         self.board_size = board_size
         self.fastmode = None
         self.playing = None
+        self.silent_mode = silent_mode
         if players:
             self.players = [Player(player_name) for player_name in players]
         else:
@@ -38,7 +35,8 @@ class Gomoku_Web(gomoku.Gomoku):
             return
         self.hist_moves.append(self.last_move) # for undo
         winner = self.check_winner()
-        self.print_board()
+        if not self.silent_mode:
+            self.print_board()
         if winner is not None:
             print("##########    %s is the WINNER!    #########" % current_player.name)
             return None, winner
@@ -69,7 +67,8 @@ class Gomoku_Web(gomoku.Gomoku):
         my_last_move = self.hist_moves.pop()
         self.board[self.playing].remove(my_last_move)
         print("Undo!")
-        self.print_board()
+        if not self.silent_mode:
+            self.print_board()
 
 
 class Player(gomoku.Player):
