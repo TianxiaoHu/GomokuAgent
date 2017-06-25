@@ -1,7 +1,5 @@
 #!/usr/bin/env python2
 # -- coding: utf-8 --
-
-
 from __future__ import print_function, division
 import os, sys, time, collections
 from functools import update_wrapper
@@ -51,7 +49,7 @@ class Gomoku(object):
     Two players alternatively put their stone on the board. First one got five in a row wins.
     """
 
-    def __init__(self, board_size=15, players=None, fastmode=False, first_center=None, silent_mode=False):
+    def __init__(self, board_size=15, players=None, fastmode=False, first_center=None, silent_mode=False, winning_num=5):
         self.reset()
         self.board_size = board_size
         self.fastmode = fastmode
@@ -61,6 +59,7 @@ class Gomoku(object):
         self.last_move = None
         self.first_center = first_center
         self.silent_mode = silent_mode
+        self.winning_num = winning_num
 
     @property
     def state(self):
@@ -177,7 +176,7 @@ class Gomoku(object):
                     winning_stones.add(ext_stone)
                 else:
                     break
-            if len(winning_stones) >= 5:
+            if len(winning_stones) >= self.winning_num:
                 self.winning_stones = winning_stones
                 return self.players[self.playing].name
         return None

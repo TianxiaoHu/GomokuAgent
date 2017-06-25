@@ -5,7 +5,7 @@ class Gomoku_Web(gomoku.Gomoku):
     """ Gomoku Game Rules:
     Two players alternatively put their stone on the board. First one got five in a row wins.
     """
-    def __init__(self, board_size=15, players=None, silent_mode=False):
+    def __init__(self, board_size=15, players=None, silent_mode=False, winning_num=5):
         self.reset()
         self.board_size = board_size
         self.fastmode = None
@@ -17,6 +17,7 @@ class Gomoku_Web(gomoku.Gomoku):
             self.players = []
         self.last_move = None
         self.first_center = None
+        self.winning_num = winning_num
 
     def reset(self):
         self.board = (set(),set())
