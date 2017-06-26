@@ -1,5 +1,6 @@
 # -*- coding:utf-8 -*-
 import numpy as np
+from random import choice
 
 def strategy(state):
     """ Information provided to you:
@@ -219,7 +220,17 @@ def strategy(state):
                                90*opType['alive2']+9*opType['sleep2']+\
                                4*opType['alive1']+1*opType['nothreat']
         return opscore
-
+    
+    
+    #随机返回一个score最大的位置
+    def randomChoose(scoretable):
+        maxValue = max(scoretable.items(), key=lambda x: x[1])[1]
+        positions=[]
+        for item in scoretable.items():
+            if item[1]==maxValue:
+                positions.append(item[0])
+        return choice(positions)
+    
 
     if len(board[0]) == 0 and len(board[1]) == 0:
         return (board_size/2 + 1, board_size/2 + 1)
@@ -239,7 +250,7 @@ def strategy(state):
                     table[i, j] = 1
                     scoretable[(i, j)] = evaluate_self(table)-evaluate_op(table)
                     table[i, j] = 0
-        self_position = max(scoretable.items(), key=lambda x: x[1])[0]
+        self_position = randomChoose(scoretable)
         return (self_position[0]+1, self_position[1]+1)
 
 
