@@ -20,19 +20,22 @@ def strategy(state):
     if last_move == None:
         return (board_size/2 + 1, board_size/2 + 1)
 
-    board_init = Board(width=board_size, height=board_size, n_in_row=5)
+    board_init = Board(width=board_size, height=board_size, n_in_row=4)
     board_init.init_board()
 
     for x,y in x_stones:
-        location = [x,y]
+        location = [x-1,y-1]
         board_init.update(1, location)
     for x,y in o_stones:
-        location = [x, y]
+        location = [x-1, y-1]
         board_init.update(2, location)
+    print board_init.availables
+    print board_init.states
 
-    ai = MCTS(board_init, [1, 2], n_in_row = 5, time = 30, max_actions = 3000)
+    ai = MCTS(board_init, [2, 1], n_in_row = 4, time = 10, max_actions = 3000)
     x,y = ai.get_action()
-    return (x,y)
+#    print ("AI move: %d, %d"%(x+1,y+1))
+    return (x+1,y+1)
 
 
 # def get_action(board, play_turn, availables, calculation_time = 5):
@@ -65,14 +68,14 @@ class Board(object):
     """
 
     def __init__(self, **kwargs):
-        self.width = int(kwargs.get('width', 8))
-        self.height = int(kwargs.get('height', 8))
+        self.width = int(kwargs.get('width', 7))
+        self.height = int(kwargs.get('height', 7))
         self.states = {}  # board states, key:(player, move), value: piece type
         self.n_in_row = int(kwargs.get('n_in_row', 5))  # need how many pieces in a row to win
 
     def init_board(self):
-        if self.width < self.n_in_row or self.height < self.n_in_row:
-            raise Exception('board width and height can not less than %d' % self.n_in_row)
+        # if self.width < self.n_in_row or self.height < self.n_in_row:
+        #     raise Exception('board width and height can not less than %d' % self.n_in_row)
 
         self.availables = list(range(self.width * self.height))  # available moves
 
@@ -112,7 +115,7 @@ class MCTS(object):
     AI player, UCT RAVE
     """
 
-    def __init__(self, board, play_turn, n_in_row=5, time=5, max_actions=1000):
+    def __init__(self, board, play_turn, n_in_row=4, time=5, max_actions=1000):
         self.board = board
         self.play_turn = play_turn
         self.calculation_time = float(time)
@@ -235,11 +238,19 @@ class MCTS(object):
         return p
 
     def select_one_move(self):
-        percent_wins, move = max(
-            (self.wins.get((self.player, move), 0) /
-             self.plays.get((self.player, move), 1),
-             move)
-            for move in self.board.availables)
+#        percent_wins, move = max(
+#            (self.wins.get((self.player, move), 0) /
+#             self.plays.get((self.player, move), 1),
+#             move)
+#            for move in self.board.availables)
+        moves = {}
+        for move in self.board.availables:
+#            print('%f %d' % (100*self.wins.get((self.player, move), 0)/self.plays.get((self.player, move), 1), move))
+            moves[move] = 100*self.wins.get((self.player, move), 0)/self.plays.get((self.player, move), 1)
+        comb = max(zip(moves.values(), moves.keys()))
+        move = comb[1]
+        print(move)
+                                                                        
 
         # Display the statistics for each possible play,
         # first is MC value, second is AMAF value
@@ -256,7 +267,7 @@ class MCTS(object):
                  for move in self.board.availables),
                 reverse=True):
             print('{6}: {0:.2f}%--{1:.2f}% ({2} / {3})--({4} / {5})'.format(*x))
-
+        print(move)
         return move
 
     def adjacent_moves(self, board, player, plays):
