@@ -6,3 +6,5 @@
 *.log
 *.out
 *.synctex.gz
+*.sgf
+.ipynb_checkpoints/
