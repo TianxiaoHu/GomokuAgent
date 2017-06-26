@@ -17,6 +17,10 @@
 \usepackage{amsmath}
 \usepackage[ruled]{algorithm2e}
 \usepackage{url}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage[noend]{algpseudocode}
+\usepackage{algorithmicx}
 
 \aclfinalcopy % Uncomment this line for the final submission
 %\def\aclpaperid{***} %  Enter the acl Paper ID here
@@ -42,7 +46,7 @@
   Bing Zhang \\
   School of Data Science\\
   Fudan University\\
-  {\tt TODO@fudan.edu.cn}
+  {\tt 14307130338@fudan.edu.cn}
 }
 
 \date{\today}
@@ -155,7 +159,34 @@ However, after dozens of games, we find the greedy strategy does not in general 
 
 \subsection{Speed Optimization}
 
-\section{Monte Carlo Search}
+\section{Monte Carlo Tree Search}
+\subsection{Introduction to MCTS and UCT}
+\par Monte Carlo Tree Search (MCTS) is a tree search technique expanding the search tree based on random sampling of the search space. The application of Monte Carlo tree search in games is based on many playouts. In each playout, the game is played out to the very end by selecting moves at random. The final game result of each playout is then used to weight the nodes in the game tree so that better nodes are more likely to be chosen in future playouts. The strategy is going to have to balance playing all of the machines to gather that information, with concentrating the plays on the observed best machine. One strategy, called UCB1, does this by constructing statistical confidence intervals for each machine
+\begin{displaymath}
+\bar{x}_i \pm \sqrt{\frac{C\ln n}{n_i}}
+\end{displaymath}
+$\bar{x}_i$: the mean playout for machine \emph{i}\\
+$n_i$: the number of plays of machine \emph{i} \\
+$n$: the total number of plays
+Then, the strategy is to pick the machine with the highest upper bound each time. Upper Confidence bound applied to Trees (UCT)
+is MCTS with UCB strategy.
+\par For Gomoku game, MCTS starts with a chess board and walk chess randomly until the end. The process is repeated many times which eliminates the best move for the current chess board. Each round of Monte Carlo tree search consists of four steps:
+\begin{figure}
+\centering\includegraphics[width=3in]{1.png}
+\caption{something}
+\end{figure}
+\begin{itemize}
+\item[-] Selection:
+Build the root node based on the current chess board and generate all of its child nodes. The move to use would be chosen by the UCB1 algorithm and applied to obtain the next position to be considered. 
+\item[-] Expansion:
+Selection would then proceed until reach a position where not all of the child positions have statistics recorded. 
+\item[-] Simulation:
+If the node hasn't been simulated, then do a typical Monte Carlo simulation for chess game. Else, generate a random child node for the leaf node and do the simulation.
+\item[-] Backpropagation:
+Update the reward of the simulation (generally 0 for lose and 1 for win) to the leaf node and its ancestor node. Meanwhile add the number of view for every node in the search path.
+\end{itemize}
+\par Repeat the playouts for many times until reach the search time or max search times and we can get the best move by selecting the maximum reward child node for the current root board. The pseudocode is showed as follow.
+
 
 \section{Round Robin for Agents}
 
