@@ -95,7 +95,7 @@ Polluted&0\\
 
 The first version of the evaluation function is fairly simple and works rapidly. Nevertheless, after trying dozens of man-machine games, we find the agent can make some stupid mistakes, which result from its excessively simple evaluation function. Actually, the defect can be well solved by applying minimax algorithm, but at a high price of the computing resource.
 \subsection{The Second Version}
-Then we intend to add more knowledge to the evaluation function to make it "smarter".
+Then we intend to add more knowledge to the evaluation function to make it ``smarter''.
 
 In the second version of the evaluation function, we take more account of chess-types, or in other words, the relative position of the pieces.
 
@@ -161,7 +161,13 @@ However, after dozens of games, we find the greedy strategy does not in general 
 
 \section{Monte Carlo Tree Search}
 \subsection{Introduction to MCTS and UCT}
-\par Monte Carlo Tree Search (MCTS) is a tree search technique expanding the search tree based on random sampling of the search space. The application of Monte Carlo tree search in games is based on many playouts. In each playout, the game is played out to the very end by selecting moves at random. The final game result of each playout is then used to weight the nodes in the game tree so that better nodes are more likely to be chosen in future playouts. The strategy is going to have to balance playing all of the machines to gather that information, with concentrating the plays on the observed best machine. One strategy, called UCB1, does this by constructing statistical confidence intervals for each machine
+\par Monte Carlo Tree Search (MCTS) is a tree search technique expanding the search tree based on random sampling of the search space. The application of Monte Carlo tree search in games is based on many playouts. In each playout, the game is played out to the very end by selecting moves at random. The final game result of each playout is then used to weight the nodes in the game tree so that better nodes are more likely to be chosen in future playouts. The strategy is going to have to balance playing all of the machines to gather that information, with concentrating the plays on the observed best machine. One strategy, called UCB1, does this by constructing statistical confidence intervals for each machine.
+
+\begin{figure*}[!ht]
+\centering\includegraphics[width=6in]{1.png}
+\caption{something}
+\end{figure*}
+
 \begin{displaymath}
 \bar{x}_i \pm \sqrt{\frac{C\ln n}{n_i}}
 \end{displaymath}
@@ -171,10 +177,7 @@ $n$: the total number of plays
 Then, the strategy is to pick the machine with the highest upper bound each time. Upper Confidence bound applied to Trees (UCT)
 is MCTS with UCB strategy.
 \par For Gomoku game, MCTS starts with a chess board and walk chess randomly until the end. The process is repeated many times which eliminates the best move for the current chess board. Each round of Monte Carlo tree search consists of four steps:
-\begin{figure}
-\centering\includegraphics[width=3in]{1.png}
-\caption{something}
-\end{figure}
+
 \begin{itemize}
 \item[-] Selection:
 Build the root node based on the current chess board and generate all of its child nodes. The move to use would be chosen by the UCB1 algorithm and applied to obtain the next position to be considered. 
