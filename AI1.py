@@ -25,6 +25,7 @@
 # // tuple contains at least one black and at least one white
 # Polluted, tupleScoreTable[10] = 0
 import numpy as np
+from random import choice
 
 def strategy(state):
     """ Information provided to you:
@@ -125,8 +126,8 @@ def strategy(state):
                     table[i, j] = 1
                     scoreTable[(i, j)] = heuristic(table)
                     table[i, j] = 0
-        choice = randomChoose(scoretable)
-        return (choice[0]+1, choice[1]+1)
+        self_position = randomChoose(scoreTable)
+        return (self_position[0]+1, self_position[1]+1)
 
 def finish():
     pass
