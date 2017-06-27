@@ -108,12 +108,12 @@ def strategy(state):
         return sumScore
     
     def randomChoose(scoretable):
-    maxValue = max(scoretable.items(), key=lambda x: x[1])[1]
-    positions=[]
-    for item in scoretable.items():
-        if item[1]==maxValue:
-            positions.append(item[0])
-    return choice(positions)
+        maxValue = max(scoretable.items(), key=lambda x: x[1])[1]
+        positions=[]
+        for item in scoretable.items():
+            if item[1]==maxValue:
+                positions.append(item[0])
+        return choice(positions)
     
     if len(board[0]) == 0 and len(board[1]) == 0:
         return (board_size/2 + 1, board_size/2 + 1)
