@@ -43,10 +43,10 @@ def strategy(state):
         for i,j in opponent_stones:
             state[i-1,j-1] = -1
 
-        if strategy.zobrist_code in U_stone.cache:
-            print("Calculated Move: %.3f" %U_stone.cache[strategy.zobrist_code])
-        else:
-            print("Didn't know this move!")
+        # if strategy.zobrist_code in U_stone.cache:
+        #     print("Calculated Move: %.3f" %U_stone.cache[strategy.zobrist_code])
+        # else:
+        #     print("Didn't know this move!")
 
         if len(my_stones) == 0:
             level = 8
@@ -110,8 +110,8 @@ def best_action_q(state, zobrist_code, empty_spots_left, last_move, alpha, beta,
             if q > max_q:
                 max_q = q
                 best_move = current_move
-                if verbose:
-                    print(current_move, q)
+                # if verbose:
+                #     print(current_move, q)
             if q == 1.0 or beta <= alpha:
                 break
         best_q = max_q
@@ -310,7 +310,8 @@ def find_interesting_moves(state, empty_spots_left, move_interest_values, player
     # all moves have been investigated now see if we have to block first
     if force_to_block is True or exist_will_win_move is True:
         if verbose is True:
-            print(final_single_move[0,0], final_single_move[0,1], "Only One")
+            # print(final_single_move[0,0], final_single_move[0,1], "Only One")
+            pass
         return final_single_move
     else:
         flattened_interest = move_interest_values.ravel()
@@ -323,10 +324,10 @@ def find_interesting_moves(state, empty_spots_left, move_interest_values, player
         interested_moves[:,0] = high_interest_idx // board_size
         interested_moves[:,1] = high_interest_idx % board_size
 
-        if verbose is True:
-            print("There are", n_moves, "interested_moves")
-            for i in range(n_moves):
-                print(interested_moves[i,0],interested_moves[i,1],'  :  ', flattened_interest[high_interest_idx[i]])
+        # if verbose is True:
+            # print("There are", n_moves, "interested_moves")
+            # for i in range(n_moves):
+                # print(interested_moves[i,0],interested_moves[i,1],'  :  ', flattened_interest[high_interest_idx[i]])
         return interested_moves
 
 
