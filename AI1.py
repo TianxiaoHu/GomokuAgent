@@ -107,6 +107,14 @@ def strategy(state):
                     sumScore += score(tuple(fivetuple))
         return sumScore
     
+    def randomChoose(scoretable):
+    maxValue = max(scoretable.items(), key=lambda x: x[1])[1]
+    positions=[]
+    for item in scoretable.items():
+        if item[1]==maxValue:
+            positions.append(item[0])
+    return choice(positions)
+    
     if len(board[0]) == 0 and len(board[1]) == 0:
         return (board_size/2 + 1, board_size/2 + 1)
     else:
@@ -117,7 +125,7 @@ def strategy(state):
                     table[i, j] = 1
                     scoreTable[(i, j)] = heuristic(table)
                     table[i, j] = 0
-        choice = max(scoreTable.items(), key=lambda x: x[1])[0]
+        choice = randomChoose(scoretable)
         return (choice[0]+1, choice[1]+1)
 
 def finish():
