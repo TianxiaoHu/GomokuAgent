@@ -40,15 +40,15 @@
 \author{Tianxiao Hu \\
   School of Computer Science\\
   Fudan University\\
-  {\tt txhu14@fudan.edu.cn} \\\And
+  {\tt txhu14}\\{\tt @fudan.edu.cn} \\\And
   Hui Xu \\
   School of Data Science\\
   Fudan University\\
-  {\tt xuhui14@fudan.edu.cn} \\\And
+  {\tt xuhui14}\\{\tt @fudan.edu.cn} \\\And
   Bing Zhang \\
   School of Data Science\\
   Fudan University\\
-  {\tt 14307130338@fudan.edu.cn}
+  {\tt bingzhang14}\\{\tt @fudan.edu.cn}
 }
 
 \date{\today}
@@ -56,7 +56,7 @@
 \begin{document}
 \maketitle
 \begin{abstract}
-Our Gomoku game supports two types of games, including HUMAN VS AI and AI VS AI. A well-designed user interface is provided and 3 versions of AI algorithms are implemented: \textbf{Greedy}, \textbf{Minimax Search} and \textbf{Monte Carlo Tree Search}. For source code used in the project, please visit our code respository\footnote{https://github.com/TianxiaoHu/GomokuAgent}. 
+Our Gomoku game supports two types of games, including HUMAN VS AI and AI VS AI. A well-designed user interface is provided and 3 versions of AI algorithms are implemented: \textbf{Greedy}, \textbf{Minimax Search} and \textbf{Monte Carlo Tree Search}. For source code used in the project, please visit our code respository\footnote{https://github.com/TianxiaoHu/GomokuAgent}.
 \end{abstract}
 
 \section{Introduction}
@@ -69,7 +69,7 @@ Gomoku, also called ``five in a row'', is a board game which originates from Jap
 
 This project is aimed to develop a smart agent for Gomoku game. We use 3 main strategies to implement the agent: \textbf{Greedy}, \textbf{Minimax Search} and \textbf{Monte Carlo Tree Search(MCTS)}. We will introduce them in details in the following sections.\\
 We also developed a user interface for Gomoku game. Special thanks to open source project gobang\footnote{https://github.com/lihongxun945/gobang} for the beautiful design of the web page!
- 
+
 \section{Evaluation Function}
 First of all, in order to quantify the properties of the current situation, we construct an evaluation function to estimate the win-probability. And naturally, the evaluation function will incorporate a great deal of the knowledge about the Gomoku game. Therefore, the evaluation can be either naive or complicated, which depends on the your understanding towards the Gomoku game. In general, the more complex the evaluation is, the slower the program will get over time.
 
@@ -182,8 +182,8 @@ chess board\\
 position of move
 \begin{algorithmic}
 \For{each position (i, j) on the chess board}
-銆€銆€\If{position (i, j) is blank}
-銆€銆€銆€銆€\State suppose place my piece on (i, j)
+閵嗏偓閵嗏偓\If{position (i, j) is blank}
+閵嗏偓閵嗏偓閵嗏偓閵嗏偓\State suppose place my piece on (i, j)
 		\State calculate my score: myScore
         		\State calculate opponent score: opScore
         		\State score(i, j) = myScore - opScore
@@ -207,8 +207,8 @@ In general games, the maximin value of a player is the largest value that the pl
 
 Calculating the maximin value of a player is done in a worst-case approach: for each possible action of the player, we check all possible actions of the other players and determine the worst possible combination of actions - the one that gives player $i$ the smallest value. Then, we determine which action player $i$ can take in order to make sure that this smallest value is the largest possible.
 
-\begin{figure}[!h]
-\centering\includegraphics[width=3in]{3.png}
+\begin{figure}[H]
+\centering\includegraphics[width=2in]{3.png}
 \caption{Example: Minimax Search}
 \end{figure}
 
