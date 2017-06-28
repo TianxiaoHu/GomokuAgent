@@ -15,12 +15,11 @@
 \usepackage{times}
 \usepackage{latexsym}
 \usepackage{amsmath}
-\usepackage[ruled]{algorithm2e}
 \usepackage{url}
 \usepackage{graphicx}
 \usepackage{amssymb}
 \usepackage[noend]{algpseudocode}
-\usepackage{algorithmicx}
+\usepackage{algorithmicx,algorithm}
 
 \aclfinalcopy % Uncomment this line for the final submission
 %\def\aclpaperid{***} %  Enter the acl Paper ID here
@@ -139,27 +138,75 @@ For our Gomoku agent, the evaluation function is exactly the so-called problem s
 And the implementation of the greedy search is elaborated as follows,
 \begin{algorithm}[h]
 \caption{Greedy Search}
-\LinesNumbered
-\KwIn{chess board}
-\KwOut{position of move}
-
-\For{each position (i,j) on the board}{
-　　\If{position (i,j) is blank}{
-　　　　suppose place my stone on (i,j)\;
-        calculate my score: myScore\;
-        calculate opponent score: opScore\;
-        score(i,j) = myScore - opScore;
-　　}
-
-}
-Return the position with the maximum score
+\hspace*{0.02in} {\bf Input:} 
+chess board\\
+\hspace*{0.02in} {\bf Output:} 
+position of move
+\begin{algorithmic}
+\For{each position (i,j) on the board}
+　　\If{position (i,j) is blank}
+　　　　\State suppose place my stone on (i,j)
+		\State calculate my score: myScore
+        		\State calculate opponent score: opScore
+        		\State score(i,j) = myScore - opScore
+	\EndIf
+\EndFor
+\Return the position with the maximum score
+\end{algorithmic}
 \end{algorithm}
+
+%\LinesNumbered
+%\KwIn{chess board}
+%\KwOut{position of move}
+%
+%\For{each position (i,j) on the board}{
+%　　\If{position (i,j) is blank}{
+%　　　　suppose place my stone on (i,j)\;
+%        calculate my score: myScore\;
+%        calculate opponent score: opScore\;
+%        score(i,j) = myScore - opScore;
+%　　}
+%
+%}
+%Return the position with the maximum score
+%\end{algorithm}
 
 However, after dozens of games, we find the greedy strategy does not in general produce an optimal solution. On the one hand, owing to the limitation of the evaluation function, the evaluated score of the current situation can't describe the win-probability precisely. On the other hand, this is also the inherent defect of the greedy algorithm. But nonetheless a greedy heuristic may yield locally optimal solutions that approximate a global optimal solution in a reasonable time, which is appealing when solving many other problems.
 
 \section{Minimax Algorithm}
 
 \subsection{Introduction to Minimax and Alpha-Beta Prunning}
+\begin{algorithm}[h]
+\caption{The Alpha-Beta Pruning algirithm} 
+\hspace*{0.02in} {\bf function} 
+alphabeta(node, depth, $\alpha, \beta$, maximizingPlayer)
+\begin{algorithmic}
+\If{depth = 0 or node is a terminal node}
+	\State \Return the heuristic value of node
+	\If{maxmizingPlayer}
+		\State v $\gets - \infty$ 
+		\For{each child of node}
+			\State v $\gets max(v, alphabeta(child, depth - 1, \alpha, \beta, FALSE)$
+			\State $\alpha \gets max(\alpha, v)$ 
+			\If{$\beta \leq \alpha$}
+				\State break
+			\EndIf
+		\State \Return v
+		\EndFor
+	\Else
+		\State $v \gets + \infty$
+		\For{each child of node}
+			\State v $\gets min(v, alphabeta(child, depth - 1, \alpha, \beta, TRUE)$
+			\State $\beta \gets max(\beta, v)$ 
+			\If{$\beta \leq \alpha$}
+				\State break
+			\EndIf
+		\State \Return v
+		\EndFor
+	\EndIf
+\EndIf
+\end{algorithmic}
+\end{algorithm}
 
 In general games, the maximin value of a player is the largest value that the player can be sure to get without knowing the actions of the other players; equivalently, it is the smallest value the other players can force the player to receive when they know his action.\\
 Calculating the maximin value of a player is done in a worst-case approach: for each possible action of the player, we check all possible actions of the other players and determine the worst possible combination of actions - the one that gives player $i$ the smallest value. Then, we determine which action player $i$ can take in order to make sure that this smallest value is the largest possible.
@@ -230,6 +277,68 @@ If the node hasn't been simulated, then do a typical Monte Carlo simulation for 
 Update the reward of the simulation (generally 0 for lose and 1 for win) to the leaf node and its ancestor node. Meanwhile add the number of view for every node in the search path.
 \end{itemize}
 \par Repeat the playouts for many times until reach the search time or max search times and we can get the best move by selecting the maximum reward child node for the current root board. The pseudocode is showed as follow.
+\begin{algorithm}[h]
+\caption{The UCT algorithm} 
+\hspace*{0.02in} {\bf function} 
+UCTSearch($s_0$) 
+\begin{algorithmic}
+\State create root node $v_0$ with state $s_0$
+\While{within computational budget} 
+	\State $v_l \gets TreePolicy(v_0)$ 
+	\State $\Delta \gets DefaultPolicy(s(v_l))$ 
+	\State $BackUp(v_l, \Delta)$
+\EndWhile
+\State \Return $a(BestChild(v_0, 0))$
+\end{algorithmic}
+~\\
+\hspace*{0.02in} {\bf function}
+TreePolicy(v)
+\begin{algorithmic}
+\While{v is nonterminal}
+	\If{v not fully expanded}
+		\State \Return Expand(v)
+	\Else
+		\State $v \gets BestChild(v, Cp)$
+	\EndIf
+\EndWhile
+\State \Return v
+\end{algorithmic}
+~\\
+\hspace*{0.02in} {\bf function}
+Expand(v)
+\begin{algorithmic}
+\State choose a $\in$ untried actions from A(s(v))
+\State add a new child v' to v with s(v') = f(s(v),a) and a(v') = a
+\State \Return v'
+\end{algorithmic}
+~\\
+\hspace*{0.02in} {\bf function}
+BestChild(v,c)
+\begin{algorithmic}
+\State \Return $\mathop{\arg\max} \frac{Q(v')}{N(v')} + c\sqrt{\frac{2lnN(v)}{N(v')}}$
+\end{algorithmic}
+~\\
+\hspace*{0.02in} {\bf function}
+DefaultPolicy(s)
+\begin{algorithmic}
+\While{s is non-terminal}
+	\State choose a $\in$ A(s) uniformly at random
+	\State s $\gets$ f(s,a)
+\EndWhile
+\State \Return reward for state s
+\end{algorithmic}
+~\\
+\hspace*{0.02in} {\bf function}
+BackUp(v,$\Delta$)
+\begin{algorithmic}
+\While{v is not null}
+	\State N(v) $\gets$ N(v) + 1
+	\State Q(v) $\gets$ Q(v) + $\delta(v, p)$
+	\State v $\gets$ parent of v
+\EndWhile
+\end{algorithmic}
+\end{algorithm}
+
 
 
 \section{Round Robin for Agents}
