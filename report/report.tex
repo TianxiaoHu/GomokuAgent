@@ -390,6 +390,13 @@ BackUp(v,$\Delta$)
 \EndWhile
 \end{algorithmic}
 \end{algorithm}
+\par Obviously the tree structure for a 15x15 Gomoku game board is too large, so the machine needs too many simulations for each choice of move and it take a long time for AI's move. Thus, the game experience is not very well.
+\par Since we cannot speed up our algorithm by using cluster environment, we conduct a 4-in-row game in a 7x7 game board. And here is a view for a game result.
+
+\begin{figure}[H]
+\centering\includegraphics[width=3in]{ai3.png}
+\caption{Result for MCTS algorithm}
+\end{figure}
 
 
 
