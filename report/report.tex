@@ -20,6 +20,9 @@
 \usepackage{amssymb}
 \usepackage[noend]{algpseudocode}
 \usepackage{algorithmicx,algorithm}
+\usepackage{float}
+
+\newenvironment{figurehere} {\def\@captype{figure}} {}
 
 \aclfinalcopy % Uncomment this line for the final submission
 %\def\aclpaperid{***} %  Enter the acl Paper ID here
@@ -61,13 +64,13 @@ Our Gomoku game support two types of games, including HUMAN VS AI and AI VS AI. 
 \section{Introduction}
 Gomoku, also called ``five in a row'', is a board game which originates from Japan. It is a game played on a Go board typically of size 15 x 15. In the game, players will take turns placing stones until a player has managed to connect 5 in a row.
 
-\begin{figure}[!ht]
-\centering\includegraphics[width=3in]{2.png}
+\begin{figure}[!h]
+\centering\includegraphics[width=2.5in]{2.png}
 \caption{A Typical Gomoku Game}
-\end{figure} 
+\end{figure}
 
 This project is aimed to develop a smart agent for Gomoku game. We use 3 main strategies to implement the agent: \textbf{Greedy}, \textbf{Minimax Search} and \textbf{Monte Carlo Tree Search(MCTS)}. We will introduce them in details in the following sections.\\
-We also developed a user interface for Gomoku game. Special thanks to open source project gobang\footnote{https://github.com/lihongxun945/gobang} for the beautiful design of the web page! HUMAN VS AI and AI VS AI are both supported. 
+We also developed a user interface for Gomoku game. Special thanks to open source project gobang\footnote{https://github.com/lihongxun945/gobang} for the beautiful design of the web page! HUMAN VS AI and AI VS AI are both supported.
 
 \section{Evaluation Function}
 First of all, in order to quantify the properties of the current situation, we construct an evaluation function to estimate the win-probability. And naturally, the evaluation function will incorporate a great deal of the knowledge about the Gomoku game. Therefore, the evaluation can be either naive or complicated, which depends on the your understanding towards the Gomoku game. In general, the more complex the evaluation is, the slower the program will get over time.
@@ -115,7 +118,7 @@ The new score table is stated below,
 \centering
 \begin{tabular}{c|c|c}
 \hline
-Chess-Type&Self-Score&Opponent-Score  \\
+Chess-Type&Self-Score&Opp-Score  \\
 \hline
 Five&1000000&1000000\\
 Alive-Four&20000&100000\\
@@ -123,10 +126,14 @@ CoDash-Four&6100&65000\\
 GapDash-Four&6000&65000\\
 CoAlive-Three&1100&5500\\
 GapAlive-Three&1000&5000\\
-Asleep-Three&300&200\\
+CoAsleep-Three&300&200\\
+GapAsleep-Three&290&200\\
+TeAsleep-Three&290&200\\
+FalseAlive-Three&290&200\\
 Alive-Two&100&90\\
 Asleep-Two&10&9\\
 One&3&4\\
+NoThreat&1&1\\
 \hline
 \end{tabular}
 \end{table}
@@ -134,7 +141,7 @@ One&3&4\\
 \noindent\begin{small}\emph{Note the names of the chess-types are fabricated by ourselves because we can't find accurate translation to these terms. If you are interest in the exact chess mode corresponding to the chess-types, please refer to the code or contact us.}\end{small}
 
 \subsection{Using Genetic Algorithm to find Better Evaluation Function}
-You may find in the score table, the chess-types and corresponding self-scores and opponent scores are quite subjective. Thus, we applied genetic algorithm to find a better evaluation function, which is inspired by the process of natural selection. 
+You may find in the score table, the chess-types and corresponding self-scores and opponent scores are quite subjective. Thus, we applied genetic algorithm to find a better evaluation function, which is inspired by the process of natural selection.
 
 We initialize the algorithm by setting the original score table as the very first generation. Afterwards, it can breed a new generation by randomly plus or minus 3\% specific chess-type score. The parent agent will play with each child agent 100 times and find the best children as the new parent. When the new generation can't defeat their parent, the algorithm comes to an end.
 
@@ -144,18 +151,22 @@ The results are as follow:
 \centering
 \begin{tabular}{c|c|c}
 \hline
-Chess-Type&Self-Score&Opponent-Score  \\
+Chess-Type&Self-Score&Opp-Score  \\
 \hline
-Five&1000000&1000000\\
-Alive-Four&20000&100000\\
-CoDash-Four&6100&65000\\
-GapDash-Four&6000&65000\\
-CoAlive-Three&1100&5500\\
-GapAlive-Three&1000&5000\\
-Asleep-Three&300&200\\
-Alive-Two&100&90\\
-Asleep-Two&10&9\\
-One&3&4\\
+Five&1229874&1304773\\
+Alive-Four&27685&119405\\
+CoDash-Four&8198&84810\\
+GapDash-Four&7164&75353\\
+CoAlive-Three&1202&7176\\
+GapAlive-Three&1426&6720\\
+CoAsleep-Three&415&219\\
+GapAsleep-Three&378&239\\
+TeAsleep-Three&336&253\\
+FalseAlive-Three&357&246\\
+Alive-Two&127&111\\
+Asleep-Two&11&12\\
+One&4&5\\
+NoThreat&1&1\\
 \hline
 \end{tabular}
 \end{table}
@@ -168,20 +179,20 @@ For our Gomoku agent, the evaluation function is exactly the so-called problem s
 And the implementation of the greedy search is elaborated as follows:
 \begin{algorithm}[h]
 \caption{Greedy Search}
-\hspace*{0.02in} {\bf Input:} 
+\hspace*{0.02in} {\bf Input:}
 chess board\\
-\hspace*{0.02in} {\bf Output:} 
+\hspace*{0.02in} {\bf Output:}
 position of move
 \begin{algorithmic}
 \For{each position (i, j) on the board}
-　　\If{position (i, j) is blank}
-　　　　\State suppose place my stone on (i, j)
+銆€銆€\If{position (i, j) is blank}
+銆€銆€銆€銆€\State suppose place my stone on (i, j)
 		\State calculate my score: myScore
         		\State calculate opponent score: opScore
         		\State score(i, j) = myScore - opScore
 	\EndIf
 \EndFor
-\Return the position with the maximum score
+\Return the position with the max score
 \end{algorithmic}
 \end{algorithm}
 
@@ -190,12 +201,12 @@ position of move
 %\KwOut{position of move}
 %
 %\For{each position (i,j) on the board}{
-%　　\If{position (i,j) is blank}{
-%　　　　suppose place my stone on (i,j)\;
+%銆€銆€\If{position (i,j) is blank}{
+%銆€銆€銆€銆€suppose place my stone on (i,j)\;
 %        calculate my score: myScore\;
 %        calculate opponent score: opScore\;
 %        score(i,j) = myScore - opScore;
-%　　}
+%銆€銆€}
 %
 %}
 %Return the position with the maximum score
@@ -211,37 +222,38 @@ After testing our agents for a number of games, we found opening is fairly impor
 
 \subsection{Introduction to Minimax and Alpha-Beta Prunning}
 
-In general games, the maximin value of a player is the largest value that the player can be sure to get without knowing the actions of the other players; equivalently, it is the smallest value the other players can force the player to receive when they know his action.\\
+In general games, the maximin value of a player is the largest value that the player can be sure to get without knowing the actions of the other players; equivalently, it is the smallest value the other players can force the player to receive when they know his action.
+
 Calculating the maximin value of a player is done in a worst-case approach: for each possible action of the player, we check all possible actions of the other players and determine the worst possible combination of actions - the one that gives player $i$ the smallest value. Then, we determine which action player $i$ can take in order to make sure that this smallest value is the largest possible.
 
 \begin{figure}[!h]
 \centering\includegraphics[width=3in]{3.png}
 \caption{Example: Minimax Search}
-\end{figure} 
+\end{figure}
 
 In Gomoku game, we use \textbf{evaluation function} to score each board. After a player has placed a stone on the board, a new state is created right after the old. Afterwards, agents can search the tree and return the best choice. However, due to the large search space of Gomoku, the tree will expand rapidly and lead to a unbearable waiting time. We employed Alpha-Beta Prunning to accelerate our agent.
 
-Alpha–Beta pruning is a search algorithm that seeks to decrease the number of nodes that are evaluated by the Minimax algorithm in its search tree. It stops completely evaluating a move when at least one possibility has been found that proves the move to be worse than a previously examined move. Such moves need not be evaluated further. 
+Alpha鈥揃eta pruning is a search algorithm that seeks to decrease the number of nodes that are evaluated by the Minimax algorithm in its search tree. It stops completely evaluating a move when at least one possibility has been found that proves the move to be worse than a previously examined move. Such moves need not be evaluated further.
 
 \begin{figure}[!h]
-\centering\includegraphics[width=3in]{4.png}
+\centering\includegraphics[width=3.2in]{4.png}
 \caption{Example: Minimax Search}
 \end{figure}
 
-Our pseudocode is listed below.
-
+Our pseudocode is listed as right-above.
+\begin{small}
 \begin{algorithm}[!h]
-\caption{Alpha-Beta Pruning algirithm} 
-\hspace*{0.02in} {\bf function} 
+\caption{Alpha-Beta Pruning algirithm}
+\hspace*{0.02in} {\bf function}
 alphabeta(node, depth, $\alpha, \beta$, maximizingPlayer)
 \begin{algorithmic}
 \If{depth = 0 or node is a terminal node}
 	\State \Return the heuristic value of node
 	\If{maxmizingPlayer}
-		\State v $\gets - \infty$ 
+		\State v $\gets - \infty$
 		\For{each child of node}
-			\State v $\gets max(v, alphabeta(child, depth - 1, \alpha, \beta, FALSE)$
-			\State $\alpha \gets max(\alpha, v)$ 
+			\State v $\gets$ max(v, alphabeta(child, depth - 1, $\alpha$, $\beta$, FALSE)
+			\State $\alpha \gets max(\alpha, v)$
 			\If{$\beta \leq \alpha$}
 				\State break
 			\EndIf
@@ -250,8 +262,8 @@ alphabeta(node, depth, $\alpha, \beta$, maximizingPlayer)
 	\Else
 		\State $v \gets + \infty$
 		\For{each child of node}
-			\State v $\gets min(v, alphabeta(child, depth - 1, \alpha, \beta, TRUE)$
-			\State $\beta \gets max(\beta, v)$ 
+			\State v $\gets$ min(v, alphabeta(child, depth - 1, $\alpha$, $\beta$, TRUE)
+			\State $\beta \gets max(\beta, v)$
 			\If{$\beta \leq \alpha$}
 				\State break
 			\EndIf
@@ -261,32 +273,30 @@ alphabeta(node, depth, $\alpha, \beta$, maximizingPlayer)
 \EndIf
 \end{algorithmic}
 \end{algorithm}
-
+\end{small}
 
 \subsection{Speed Optimization}
 The depth of search tree is an important parameter in Minimax Search. If layers searched not enough, our agent will be really short-sighted. However, for the sake of Python's efficiency, our naive implementation can only search for 2 layers in 1 second. If we force it to search 4 layers, the waiting time will become 10 seconds. Further optimization is needed.
 
 \begin{itemize}
 \item \textbf{Less Search States}\\
-We explore less search state for each player. Instead of search all possible place for a stone, we only consider places near stones which are already placed in the board. 
+We explore less search state for each player. Instead of search all possible place for a stone, we only consider places near stones which are already placed in the board.
 \item \textbf{Zobrist Hashing States in Memory}\\
 During the expanding of the search tree, some nodes may share the same state. Their scores will be the same so we need not calculate them twice. We save each state and its score in memory to accelerate the agent.\\
-However, a state is hard to perform hashing. We use Zobrist Hashing to represent states. Zobrist Hashing starts by randomly generating bitstrings for each possible element of a board game, i.e. for each combination of a piece and a position. Now any board configuration can be broken up into independent position components, which are mapped to the random bitstrings generated earlier. The final Zobrist Hashing is computed by combining those bitstrings using bitwise XOR. When updating positions, rather than computing the hash for the entire board every time, the hash value of a board can be updated simply by XOR out the bitstring for positions that have changed, and XOR in the bitstrings for the new positions.  
+However, a state is hard to perform hashing. We use Zobrist Hashing to represent states. Zobrist Hashing starts by randomly generating bitstrings for each possible element of a board game, i.e. for each combination of a piece and a position. Now any board configuration can be broken up into independent position components, which are mapped to the random bitstrings generated earlier. The final Zobrist Hashing is computed by combining those bitstrings using bitwise XOR. When updating positions, rather than computing the hash for the entire board every time, the hash value of a board can be updated simply by XOR out the bitstring for positions that have changed, and XOR in the bitstrings for the new positions.
 \item \textbf{Python's Numba Package}\\
 Our implementation is based on Python's scientific computing packages Numpy. We use Numba package to accelerate it. Numba is an Open Source NumPy-aware optimizing compiler for Python. It uses the LLVM compiler infrastructure to compile Python to machine code. This optimized function runs 200 times faster than the interpreted original function on a long NumPy array; and it is 30\% faster than NumPy's builtin \emph{sum()} function\footnote{https://en.wikipedia.org/wiki/Numba}.
 
 \end{itemize}
 
+
+
 Our optimized Alpha-Beta Prunning can search 8 layers in 1 second. And it turned out to be really hard to defeat especially when it's on the offensive.
 
 \section{Monte Carlo Tree Search}
 \subsection{Introduction to MCTS and UCT}
-\par Monte Carlo Tree Search (MCTS) is a tree search technique expanding the search tree based on random sampling of the search space. The application of Monte Carlo tree search in games is based on many playouts. In each playout, the game is played out to the very end by selecting moves at random. The final game result of each playout is then used to weight the nodes in the game tree so that better nodes are more likely to be chosen in future playouts. The strategy is going to have to balance playing all of the machines to gather that information, with concentrating the plays on the observed best machine. One strategy, called UCB1, does this by constructing statistical confidence intervals for each machine.
-
-\begin{figure*}[!ht]
-\centering\includegraphics[width=6in]{1.png}
-\caption{Example: Monte Carlo Tree Search}
-\end{figure*}
+\par Monte Carlo Tree Search (MCTS) is a tree search technique expanding the search tree based on random sampling of the search space. The application of Monte Carlo tree search in games is based on many playouts. In each playout, the game is played out to the very end by selecting moves at random. The final game result of each playout is then used to weight the nodes in the game tree so that better nodes are more likely to be chosen in
+future playouts. The strategy is going to have to balance playing all of the machines to gather that information, with concentrating the plays on the observed best machine. One strategy, called UCB1, does this by constructing statistical confidence intervals for each machine.
 
 \begin{displaymath}
 \bar{x}_i \pm \sqrt{\frac{C\ln n}{n_i}}
@@ -296,30 +306,38 @@ $\bar{x}_i$: the mean playout for machine \emph{i}\\
 $n_i$: the number of plays of machine \emph{i} \\
 $n$: the total number of plays
 \end{center}
+
 Then, the strategy is to pick the machine with the highest upper bound each time. Upper Confidence bound applied to Trees (UCT)
 is MCTS with UCB strategy.
-\par For Gomoku game, MCTS starts with a chess board and walk chess randomly until the end. The process is repeated many times which eliminates the best move for the current chess board. Each round of Monte Carlo tree search consists of four steps:
+\par For Gomoku game, MCTS starts with a chess board and walk chess randomly until the end. The process is repeated many times which eliminates the best move for the current chess board. Each round of Monte Carlo tree search consists of four steps:\\
 
+\begin{figurehere}
+\centering
+\includegraphics[width=90mm]{1.png}
+\end{figurehere}
 \begin{itemize}
 \item Selection:
-Build the root node based on the current chess board and generate all of its child nodes. The move to use would be chosen by the UCB1 algorithm and applied to obtain the next position to be considered. 
+Build the root node based on the current chess board and generate all of its child nodes. The move to use would be chosen by the UCB1 algorithm and applied to obtain the next position to be considered.
 \item Expansion:
-Selection would then proceed until reach a position where not all of the child positions have statistics recorded. 
+Selection would then proceed until reach a position where not all of the child positions have statistics recorded.
 \item Simulation:
 If the node hasn't been simulated, then do a typical Monte Carlo simulation for chess game. Else, generate a random child node for the leaf node and do the simulation.
 \item Backpropagation:
 Update the reward of the simulation (generally 0 for lose and 1 for win) to the leaf node and its ancestor node. Meanwhile add the number of view for every node in the search path.
 \end{itemize}
+
+
+%Example: Monte Carlo Tree Search
 \par Repeat the playouts for many times until reach the search time or max search times and we can get the best move by selecting the maximum reward child node for the current root board. The pseudocode is showed as follow.
-\begin{algorithm}[h]
-\caption{The UCT algorithm} 
-\hspace*{0.02in} {\bf function} 
-UCTSearch($s_0$) 
+\begin{algorithm}[H]
+\caption{The UCT algorithm}
+\hspace*{0.02in} {\bf function}
+UCTSearch($s_0$)
 \begin{algorithmic}
 \State create root node $v_0$ with state $s_0$
-\While{within computational budget} 
-	\State $v_l \gets TreePolicy(v_0)$ 
-	\State $\Delta \gets DefaultPolicy(s(v_l))$ 
+\While{within computational budget}
+	\State $v_l \gets TreePolicy(v_0)$
+	\State $\Delta \gets DefaultPolicy(s(v_l))$
 	\State $BackUp(v_l, \Delta)$
 \EndWhile
 \State \Return $a(BestChild(v_0, 0))$
@@ -372,13 +390,7 @@ BackUp(v,$\Delta$)
 \EndWhile
 \end{algorithmic}
 \end{algorithm}
-\par Obviously the tree structure for a 15x15 Gomoku game board is too large, so the machine needs too many simulations for each choice of move and it take a long time for AI's move. Thus, the game experience is not very well.
-\par Since we cannot speed up our algorithm by using cluster environment, we conduct a 4-in-row game in a 7x7 game board. And here is a view for a game result.
 
-\begin{figure}[H]
-\centering\includegraphics[width=3in]{ai3.png}
-\caption{Result for MCTS algorithm}
-\end{figure}
 
 
 \section{Round Robin for Agents}
