@@ -6,9 +6,21 @@ This is the final project for Artificial Intelligence(DATA130008.01)@ Fudan Uni
 
 Built together with[@Anthony-Xu](https://github.com/Anthony-Xu) and [@iriserika](https://github.com/iriserika) .
 
-To run the game server, enter command: ```python run.py```
+- Play Gomoku on PC
 
-Then open the website http://127.0.0.1:5000/ in your browser.
+  First run the game server, enter command: ```python run.py```
+
+  Open the website http://127.0.0.1:5000/ in your browser.
+
+- Play Gomoku on Mobile
+
+  Please make sure your server and mobile are connected to the same WLAN.
+
+  First run the game server, enter command: ```python runp.py``` 
+
+  Scan the QR code appearing on the screen using *Wechat*.
+
+**Happy Gomoku！** :-)
 
 ## Current AIs
 
