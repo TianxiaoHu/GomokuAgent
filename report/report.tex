@@ -139,7 +139,7 @@ NoThreat&1&1\\
 \noindent\begin{small}\emph{Note the names of the chess-types are fabricated by ourselves because we can't find accurate translation to these terms. If you are interest in the exact chess mode corresponding to the chess-types, please refer to the code or contact us.}\end{small}
 
 \subsection{Using Genetic Algorithm to find Better Evaluation Function}
-You may find in the score table above, the chess-types and corresponding self-scores and opponent scores are quite subjective. Thus, we apply genetic algorithm to find a better evaluation function, which is inspired by the process of natural selection.
+You may find in the score table above, the chess-types and corresponding self-scores and opponent scores are quite subjective. Thus, we apply genetic algorithm to find a better evaluation function, which is inspired by the process of natural selection\cite{ml}.
 
 We initialize the algorithm by setting the original score table as the very first generation. Afterwards, it can breed a new generation by randomly plus or minus 3\% specific chess-type score. The parent agent will play with each child agent 100 times and find the best children as the new parent. When the new generation can't defeat their parent, the algorithm comes to an end.
 
@@ -203,7 +203,7 @@ After testing our agents for a number of games, we found opening is fairly impor
 
 \subsection{Introduction to Minimax and Alpha-Beta Prunning}
 
-In general games, the maximin value of a player is the largest value that the player can be sure to get without knowing the actions of the other players; equivalently, it is the smallest value the other players can force the player to receive when they know his action.
+In general games, the maximin value of a player is the largest value that the player can be sure to get without knowing the actions of the other players; equivalently, it is the smallest value the other players can force the player to receive when they know his action\cite{ai}.
 
 Calculating the maximin value of a player is done in a worst-case approach: for each possible action of the player, we check all possible actions of the other players and determine the worst possible combination of actions - the one that gives player $i$ the smallest value. Then, we determine which action player $i$ can take in order to make sure that this smallest value is the largest possible.
 
@@ -404,6 +404,8 @@ When AI2 encounters with AI5, only one more layer for searching seems to be of n
 AI6 can learn next step from 5570 top-level game records. When AI6 goes first, it can beat AI1 easily in a short time. But when AI1 goes first, AI6 can only win 50\% games. The reason is that AI1 plays straight forward to carry out ``five in a row'' while AI6 will find a best place for latter pieces.
 \item \textbf{AI2 vs. AI6}\\
 Interestingly, AI6 has a very high winning percentage(90\%) against AI2. We guess the reason is top-level openings can provide more opportunities for latter pieces. The games also end quickly, all of which less than 30 pieces in total.
+\item \textbf{AI5 vs. AI6}\\
+After AI1 has learned better openings, it performs better in competitions with AI5. If AI6 goes first, it can win about 50\% games(AI1: 25\%). However, it nearly has nothing to do with the winning percent when AI5 goes first. The winning percent only rise from 11\% to 13\%.
 \item \textbf{AI4 vs. all other AI}\\
 The depth of searching tree begins to dominate in the competitions of AI4. AI4 can easily beat any other AIs, even when AI4 is not the one goes first. \\
 Although AI4's evaluation function is not the best, it can gain an advantage step by step. If other AI goes first, AI4 may not perform very well at the very beginning of the game(always be busy defending). However, after about 30 pieces are placed, the situation will become balanced. After about 50 pieces are placed, AI4 will win.\\
