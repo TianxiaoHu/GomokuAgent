@@ -30,4 +30,4 @@ Built together with[@Anthony-Xu](https://github.com/Anthony-Xu) and [@iriserika]
 - AI3: MCTS
 - AI4: 8-layer speed-optimized version of a-b prunning
 - AI5: greedy algorithm & evaluation function ver 2(improved)
-- AI6: can only find a game with same opening and place a stone(all it knows is 5570 game history)
+- AI6: greedy algorithm & evaluation function ver 1, also can find a game with same opening and place a stone(from 5570 game history)
