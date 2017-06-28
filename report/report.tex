@@ -394,6 +394,30 @@ BackUp(v,$\Delta$)
 
 
 \section{Round Robin for Agents}
+Several agents are implemented and we hold a round robin for them. From the competition result we can make a detailed analysis on different strategies.\\
+Information of agents is listed here:
+\begin{itemize}
+\item AI1: Greedy Algorithm with evaluation function version 1
+\item AI2: 2-layer Minimax Search with evaluation function version 1
+\item AI3: Monte Carlo Tree Search
+\item AI4: 8-layer Minimax Search with evaluation function version 1
+\item AI5: Greedy Algorithm with evaluation function version 2
+\item AI6 Greedy Algorithm with evaluation function version 1 but also known better openings
+\end{itemize}
+Note that AI3 runs quite slow, due to the large search space, it's performance is not satisfying. Besides, Monte Carlo Tree Search approach sometimes attempts to place a few stones away from current stones and build up ``combination moves'' that way, which is different from all other agents.
+\begin{itemize}
+\item \textbf{AI1 vs. AI2}\\
+The difference is between Greedy Algorithm and 2-layer Minimax Search. That's to say, if the agent can consider the opponent's next step. We find 2-layer Minimax Search has a slight advantage. If AI2 goes first, it will win all the 100 games. But if AI1 goes first, things are quite different. AI1 can win 14 games and 6 games turn out to be tie. AI2 still has 80\% winning percentage regardless of advantage of the upper edge.
+\item \textbf{AI1 vs. AI5}\\
+The difference between the two is the evaluation function. Contrasted to AI1, the evaluation function of AI5 is more reasonable, considering more possible cases. If AI1 goes first, it will win 75\%games and if AI5 goes first, AI5 will win 89\% games. The competition result has relevance to the order for placing stones. But in total, AI5 performs better.
+\item \textbf{AI2 vs. AI5}\\
+When AI2 encounters with AI5, only one more layer for searching seems to be of no use. AI5 beats AI2 in each game and the result is independent of which AI goes first.
+\item \textbf{AI1 vs. AI6}\\
+AI6 can learn next step from 5570 top-level game records. When AI6 goes first, it can beat AI1 easily in a short time.
+\item \textbf{AI4 vs. all other AI}
+The depth of searching tree begins to dominate in the competitions of AI4. AI4 can easily beat any other AIs, even when AI4 is not the one goes first. Although AI4's evaluation function is not the best, it can gain an advantage step by step. If other AI goes first, AI4 may not perform very well at the very beginning of the game(always be busy defending). However, after about 30 stones are placed, the situation will become balanced. After about 50 stones are placed, AI4 will win.
+By the way, we invited several students in Fudan University that are good at Gomoku game to test our agents. According to their feedback, AI4 plays the best among all AIs especially AI4 goes first. ``It's hard to defeat'', one of the players told us.
+\end{itemize}
 
 
 % include your own bib file like this:
